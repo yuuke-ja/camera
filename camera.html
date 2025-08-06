@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Full Screen Camera with Flame</title>
+  <link rel="stylesheet" href="camera.css" />
+</head>
+<body>
+  <div class="video-wrapper">
+    <video id="video" autoplay muted playsinline></video>
+    <!-- 炎動画（同じフォルダに flame-blue-fire.mp4 を置く） -->
+    <video id="flame" autoplay loop muted playsinline>
+      <source src="flame-blue-fire.mp4" type="video/mp4" />
+      お使いのブラウザは動画タグに対応していません。
+    </video>
+
+    <button id="snap">📸 シャッター</button>
+    <button id="record">● 録画</button>
+    <button id="toggleFlame">🔥 炎ON/OFF</button>
+
+    <div id="timer" style="display:none;">00:00</div>
+    <div id="face-frame"></div>
+  </div>
+
+  <script src="camera.js"></script>
+</body>
+</html>
