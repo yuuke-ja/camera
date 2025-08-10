@@ -1,5 +1,6 @@
 const video = document.getElementById('video');
 const flame = document.getElementById('flame');
+const flame2 = document.getElementById('flame2');
 const snapBtn = document.getElementById('snap');
 const recordBtn = document.getElementById('record');
 const toggleFlameBtn = document.getElementById('toggleFlame');
@@ -23,24 +24,49 @@ navigator.mediaDevices.getUserMedia({
 })
 .catch(e => console.error('カメラアクセスエラー:', e));
 
-// シャッター機能
+// シャッター機能（炎も描画）
 snapBtn.addEventListener('click', () => {
   const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   const ctx = canvas.getContext('2d');
+
+  // カメラ映像描画
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // 炎動画描画用関数
+  function drawFlame(flameEl) {
+    if (!flameEl || flameEl.style.display === 'none') return;
+
+    const flameRect = flameEl.getBoundingClientRect();
+    const videoRect = video.getBoundingClientRect();
+
+    const scaleX = canvas.width / videoRect.width;
+    const scaleY = canvas.height / videoRect.height;
+
+    const flameX = (flameRect.left - videoRect.left) * scaleX;
+    const flameY = (flameRect.top - videoRect.top) * scaleY;
+    const flameW = flameRect.width * scaleX;
+    const flameH = flameRect.height * scaleY;
+
+    ctx.drawImage(flameEl, flameX, flameY, flameW, flameH);
+  }
+
+  drawFlame(flame);
+  drawFlame(flame2);
+
+  // 保存
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'snapshot.png';
+    a.download = 'snapshot_with_flame.png';
     a.click();
     URL.revokeObjectURL(url);
   }, 'image/png');
 });
 
-// 録画機能
+// 録画機能（変更なし）
 recordBtn.addEventListener('click', () => {
   if (!recording) {
     chunks = [];
@@ -67,13 +93,11 @@ recordBtn.addEventListener('click', () => {
   }
 });
 
-// 炎の表示切替
+// 炎表示切替
 toggleFlameBtn.addEventListener('click', () => {
-  if (flame.style.display === 'none') {
-    flame.style.display = 'block';
-  } else {
-    flame.style.display = 'none';
-  }
+  const isHidden = flame.style.display === 'none' || flame.style.display === '';
+  flame.style.display = isHidden ? 'block' : 'none';
+  flame2.style.display = isHidden ? 'block' : 'none';
 });
 
 // タイマー開始

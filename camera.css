@@ -23,16 +23,28 @@ html, body {
 
 #flame {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  filter: brightness(1) contrast(1) saturate(2);
+  top: 4%; left: 34%;
+  width: 20vw; height: 20vw;
   object-fit: cover;
   pointer-events: none; /* クリックを通す */
   mix-blend-mode: screen; /* 黒背景を透過っぽく */
-  opacity: 0.7;
+  opacity: 1;
   z-index: 5;
   display: none; /* 初期は非表示 */
 }
-
+#flame2 {
+  position: fixed;
+  filter: brightness(1) contrast(1) saturate(2);
+  top: 4%; left: 45%;
+  width: 20vw; height: 20vw;
+  object-fit: cover;
+  pointer-events: none; /* クリックを通す */
+  mix-blend-mode: screen; /* 黒背景を透過っぽく */
+  opacity: 1;
+  z-index: 5;
+  display: none; /* 初期は非表示 */
+}
 #snap, #record, #toggleFlame {
   position: absolute;
   bottom: 20px;
