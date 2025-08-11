@@ -24,7 +24,7 @@ navigator.mediaDevices.getUserMedia({
 })
 .catch(e => console.error('カメラアクセスエラー:', e));
 
-// シャッター機能（炎も黒背景透過で描画）
+// シャッター機能（炎も描画・黒背景透明化対応）
 snapBtn.addEventListener('click', () => {
   const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
@@ -34,8 +34,8 @@ snapBtn.addEventListener('click', () => {
   // カメラ映像描画
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  // 黒背景透過付き炎描画
-  function drawFlameWithoutBlack(flameEl) {
+  // 炎動画描画用関数（黒背景を透明化）
+  function drawFlame(flameEl) {
     if (!flameEl || flameEl.style.display === 'none') return;
 
     const flameRect = flameEl.getBoundingClientRect();
@@ -49,29 +49,29 @@ snapBtn.addEventListener('click', () => {
     const flameW = flameRect.width * scaleX;
     const flameH = flameRect.height * scaleY;
 
-    // 一旦描画
-    ctx.drawImage(flameEl, flameX, flameY, flameW, flameH);
+    // 一時キャンバスに描画
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = flameW;
+    tempCanvas.height = flameH;
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
 
-    // ピクセルデータ取得
-    const imgData = ctx.getImageData(flameX, flameY, flameW, flameH);
+    // 黒を透明化
+    const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
     const data = imgData.data;
-
     for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-
-      // 黒っぽい部分を透明化
-      if (r < 30 && g < 30 && b < 30) {
-        data[i + 3] = 0; // alpha=0
+      if (data[i] < 30 && data[i + 1] < 30 && data[i + 2] < 30) {
+        data[i + 3] = 0;
       }
     }
+    tempCtx.putImageData(imgData, 0, 0);
 
-    ctx.putImageData(imgData, flameX, flameY);
+    // メインキャンバスに描画
+    ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
-  drawFlameWithoutBlack(flame);
-  drawFlameWithoutBlack(flame2);
+  drawFlame(flame);
+  drawFlame(flame2);
 
   // 保存
   canvas.toBlob(blob => {
@@ -84,7 +84,7 @@ snapBtn.addEventListener('click', () => {
   }, 'image/png');
 });
 
-// 録画機能（変更なし）
+// 録画機能
 recordBtn.addEventListener('click', () => {
   if (!recording) {
     chunks = [];
