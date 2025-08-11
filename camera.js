@@ -21,6 +21,10 @@ navigator.mediaDevices.getUserMedia({
 })
 .then(stream => {
   video.srcObject = stream;
+
+  // 確実に炎非表示スタート
+  flame.style.display = 'none';
+  flame2.style.display = 'none';
 })
 .catch(e => console.error('カメラアクセスエラー:', e));
 
@@ -66,9 +70,9 @@ snapBtn.addEventListener('click', () => {
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
-  // 炎の位置とサイズはcanvasの比率で指定（例: 左34%, 上10%, サイズ20%）
-  drawFlame(flame, 0.34, 40, 0.2);
-  drawFlame(flame2, 0.45, 40, 0.2);
+  // 炎の位置とサイズはcanvasの比率で指定
+  drawFlame(flame, 0.34, 0.1, 0.2);
+  drawFlame(flame2, 0.45, 0.1, 0.2);
 
   // 画像保存
   canvas.toBlob(blob => {
