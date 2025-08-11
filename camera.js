@@ -38,20 +38,14 @@ snapBtn.addEventListener('click', () => {
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // 炎動画描画用関数（黒背景を透明化）
-  function drawFlame(flameEl) {
+  function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
     if (!flameEl || flameEl.style.display === 'none') return;
 
-    const flameRect = flameEl.getBoundingClientRect();
-    const videoRect = video.getBoundingClientRect();
+    const flameW = Math.floor(canvas.width * sizeRatio);
+    const flameH = flameW; // 正方形と仮定
 
-    const scaleX = canvas.width / videoRect.width;
-    const scaleY = canvas.height / videoRect.height;
-
-    const flameX = (flameRect.left - videoRect.left) * scaleX;
-    const flameY = (flameRect.top - videoRect.top) * scaleY;
-    const flameW = Math.floor(canvas.width * 0.2);  
-    const flameH = Math.floor(canvas.width * 0.2);  
-
+    const flameX = Math.floor(canvas.width * xRatio);
+    const flameY = Math.floor(canvas.height * yRatio);
 
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = flameW;
@@ -59,10 +53,10 @@ snapBtn.addEventListener('click', () => {
     const tempCtx = tempCanvas.getContext('2d');
     tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
 
+    // 黒背景を透明にする処理（閾値40）
     const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
     const data = imgData.data;
     for (let i = 0; i < data.length; i += 4) {
-      // 黒に近い色を透明にする（閾値40）
       if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) {
         data[i + 3] = 0;
       }
@@ -72,10 +66,11 @@ snapBtn.addEventListener('click', () => {
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
-  drawFlame(flame);
-  drawFlame(flame2);
+  // 炎の位置とサイズはcanvasの比率で指定（例: 左34%, 上4%, サイズ20%）
+  drawFlame(flame, 0.34, 0.04, 0.2);
+  drawFlame(flame2, 0.45, 0.04, 0.2);
 
-  // 保存
+  // 画像保存
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
