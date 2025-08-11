@@ -67,8 +67,8 @@ snapBtn.addEventListener('click', () => {
   }
 
   // 炎の位置とサイズはcanvasの比率で指定（例: 左34%, 上4%, サイズ20%）
-  drawFlame(flame, 0.34, 0.04, 0.2);
-  drawFlame(flame2, 0.45, 0.04, 0.2);
+  drawFlame(flame, 0.34, 0.1, 0.2);
+  drawFlame(flame2, 0.45, 0.1, 0.2);
 
   // 画像保存
   canvas.toBlob(blob => {
