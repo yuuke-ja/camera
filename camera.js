@@ -49,8 +49,9 @@ snapBtn.addEventListener('click', () => {
 
     const flameX = (flameRect.left - videoRect.left) * scaleX;
     const flameY = (flameRect.top - videoRect.top) * scaleY;
-    const flameW = Math.floor(flameRect.width * scaleX);
-    const flameH = Math.floor(flameRect.height * scaleY);
+    const flameW = Math.floor(canvas.width * 0.2);  
+    const flameH = Math.floor(canvas.width * 0.2);  
+
 
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = flameW;
