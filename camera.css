@@ -27,24 +27,26 @@ html, body {
   top: 4%; left: 34%;
   width: 20vw; height: 20vw;
   object-fit: cover;
-  pointer-events: none; /* クリックを通す */
-  mix-blend-mode: screen; /* 黒背景を透過っぽく */
+  pointer-events: none;
+  mix-blend-mode: screen;
   opacity: 1;
   z-index: 5;
-  display: none; /* 初期は非表示 */
+  display: none;
 }
+
 #flame2 {
   position: fixed;
   filter: brightness(1) contrast(1) saturate(2);
   top: 4%; left: 45%;
   width: 20vw; height: 20vw;
   object-fit: cover;
-  pointer-events: none; /* クリックを通す */
-  mix-blend-mode: screen; /* 黒背景を透過っぽく */
+  pointer-events: none;
+  mix-blend-mode: screen;
   opacity: 1;
   z-index: 5;
-  display: none; /* 初期は非表示 */
+  display: none;
 }
+
 #snap, #record, #toggleFlame {
   position: absolute;
   bottom: 20px;

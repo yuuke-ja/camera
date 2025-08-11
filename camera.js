@@ -31,6 +31,9 @@ snapBtn.addEventListener('click', () => {
   canvas.height = video.videoHeight;
   const ctx = canvas.getContext('2d');
 
+  // キャンバスを透明でクリア（黒背景を防ぐ）
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   // カメラ映像描画
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -46,27 +49,25 @@ snapBtn.addEventListener('click', () => {
 
     const flameX = (flameRect.left - videoRect.left) * scaleX;
     const flameY = (flameRect.top - videoRect.top) * scaleY;
-    const flameW = flameRect.width * scaleX;
-    const flameH = flameRect.height * scaleY;
+    const flameW = Math.floor(flameRect.width * scaleX);
+    const flameH = Math.floor(flameRect.height * scaleY);
 
-    // 一時キャンバスに描画
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = flameW;
     tempCanvas.height = flameH;
     const tempCtx = tempCanvas.getContext('2d');
     tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
 
-    // 黒を透明化
     const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
     const data = imgData.data;
     for (let i = 0; i < data.length; i += 4) {
-      if (data[i] < 30 && data[i + 1] < 30 && data[i + 2] < 30) {
+      // 黒に近い色を透明にする（閾値40）
+      if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) {
         data[i + 3] = 0;
       }
     }
     tempCtx.putImageData(imgData, 0, 0);
 
-    // メインキャンバスに描画
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
