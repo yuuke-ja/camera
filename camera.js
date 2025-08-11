@@ -24,7 +24,7 @@ navigator.mediaDevices.getUserMedia({
 })
 .catch(e => console.error('カメラアクセスエラー:', e));
 
-// シャッター機能（炎も描画）
+// シャッター機能（炎も黒背景透過で描画）
 snapBtn.addEventListener('click', () => {
   const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
@@ -34,8 +34,8 @@ snapBtn.addEventListener('click', () => {
   // カメラ映像描画
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  // 炎動画描画用関数
-  function drawFlame(flameEl) {
+  // 黒背景透過付き炎描画
+  function drawFlameWithoutBlack(flameEl) {
     if (!flameEl || flameEl.style.display === 'none') return;
 
     const flameRect = flameEl.getBoundingClientRect();
@@ -49,11 +49,29 @@ snapBtn.addEventListener('click', () => {
     const flameW = flameRect.width * scaleX;
     const flameH = flameRect.height * scaleY;
 
+    // 一旦描画
     ctx.drawImage(flameEl, flameX, flameY, flameW, flameH);
+
+    // ピクセルデータ取得
+    const imgData = ctx.getImageData(flameX, flameY, flameW, flameH);
+    const data = imgData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+
+      // 黒っぽい部分を透明化
+      if (r < 30 && g < 30 && b < 30) {
+        data[i + 3] = 0; // alpha=0
+      }
+    }
+
+    ctx.putImageData(imgData, flameX, flameY);
   }
 
-  drawFlame(flame);
-  drawFlame(flame2);
+  drawFlameWithoutBlack(flame);
+  drawFlameWithoutBlack(flame2);
 
   // 保存
   canvas.toBlob(blob => {
