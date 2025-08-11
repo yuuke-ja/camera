@@ -31,7 +31,7 @@ html, body {
   mix-blend-mode: screen;
   opacity: 1;
   z-index: 5;
-  display: none !important; /* 初期非表示に強制 */
+  display: none ; /* 初期非表示に強制 */
 }
 
 #flame {
