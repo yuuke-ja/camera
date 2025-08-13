@@ -54,6 +54,13 @@ html, body {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+#snap {
+  right: 140px;
+}
+
+#record {
+  right: 80px;
+}
 
 #toggleFlame {
   right: 20px;
@@ -80,32 +87,4 @@ html, body {
   box-shadow: 0 0 15px #00ffcc;
   pointer-events: none;
   z-index: 15;
-}
-
-#snap, #record ,#faceBtn,#headBtn,#bgBtn{
-  position: fixed;
-  top: 90%;
-  /* 左右調整 */
-}
-
-#snap {
-  width: 6vw;
-  left: 55%;
-}
-
-#record {
-  width: 6vw;
-  left: 40%;
-}
-
-#faceBtn {
-  left: 70%;
-}
-
-#headBtn {
-  left: 75%;
-}
-
-#bgBtn {
-  left: 80%;
 }
