@@ -85,13 +85,16 @@ html, body {
 #bgBtn { left: 80%; }
 
 
-#toggleFlame{
-  position: fixed;
-  left:90%;
-  top:15%;
+#faceOptions {
+  position: absolute;
+  bottom: 110px;
+  right: 20px;
+  z-index: 50;  /* videoより前面に */
+  display: none;
+  flex-direction: column;
+  gap: 10px;
 }
-#toggleGlasses{
-  position: fixed;
-  left:90%;
-  top:20%;
+
+#toggleFlame, #toggleGlasses {
+  z-index: 51; /* ボタンも前面に */
 }
