@@ -31,13 +31,18 @@ html, body {
   mix-blend-mode: screen;
   opacity: 1;
   z-index: 5;
-  display: none;
+  display: none ; /* 初期非表示に強制 */
 }
 
-#flame { left: 34%; }
-#flame2 { left: 45%; }
+#flame {
+  left: 34%;
+}
 
-#snap, #record{
+#flame2 {
+  left: 45%;
+}
+
+#snap, #record, #toggleFlame {
   position: absolute;
   bottom: 20px;
   z-index: 10;
@@ -49,6 +54,10 @@ html, body {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+
+#toggleFlame {
+  right: 20px;
+}
 
 #timer {
   color: aliceblue;
@@ -76,25 +85,27 @@ html, body {
 #snap, #record ,#faceBtn,#headBtn,#bgBtn{
   position: fixed;
   top: 90%;
+  /* 左右調整 */
 }
 
-#snap { width: 6vw; left: 55%; }
-#record { width: 6vw; left: 40%; }
-#faceBtn { left: 70%; }
-#headBtn { left: 75%; }
-#bgBtn { left: 80%; }
-
-
-#faceOptions {
-  position: absolute;
-  bottom: 110px;
-  right: 20px;
-  z-index: 50;  /* videoより前面に */
-  display: none;
-  flex-direction: column;
-  gap: 10px;
+#snap {
+  width: 6vw;
+  left: 55%;
 }
 
-#toggleFlame, #toggleGlasses {
-  z-index: 51; /* ボタンも前面に */
+#record {
+  width: 6vw;
+  left: 40%;
+}
+
+#faceBtn {
+  left: 70%;
+}
+
+#headBtn {
+  left: 75%;
+}
+
+#bgBtn {
+  left: 80%;
 }

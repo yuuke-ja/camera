@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Full Screen Camera with Flame & Glasses</title>
+  <title>Full Screen Camera with Flame</title>
   <link rel="stylesheet" href="camera.css" />
 </head>
 <body>
@@ -17,9 +17,6 @@
       <source src="212710_small.mp4" type="video/mp4" />
     </video>
 
-    <!-- サングラス画像（非表示） -->
-    <img id="glasses" src="38578.png" style="display:none; position:absolute; z-index:6; width:20vw; height:auto;" />
-
     <!-- カテゴリーボタン -->
     <div id="categoryButtons" style="position:absolute; bottom: 60px; right: 20px; z-index: 15; display: flex; gap: 10px;">
       <button id="faceBtn">顔</button>
@@ -27,10 +24,9 @@
       <button id="bgBtn">背景</button>
     </div>
 
-    <!-- 顔関連オプション -->
+    <!-- 顔関連オプション（初期非表示） -->
     <div id="faceOptions" style="position:absolute; bottom: 110px; right: 20px; z-index: 15; display: none; flex-direction: column; gap: 10px;">
       <button id="toggleFlame">🔥 炎ON/OFF</button>
-      <button id="toggleGlasses">🕶 サングラスON/OFF</button>
     </div>
 
     <button id="snap">📸 シャッター</button>
