@@ -16,7 +16,7 @@ const faceOptions = document.getElementById('faceOptions');
 
 // --- カメラ起動 ---
 navigator.mediaDevices.getUserMedia({
-  video: { width: { ideal:1280 }, height: { ideal:720 }, facingMode:"user" }
+  video: { width:{ideal:1280}, height:{ideal:720}, facingMode:"user" }
 })
 .then(stream => { video.srcObject = stream; })
 .catch(e => console.error('カメラアクセスエラー:', e));
@@ -37,34 +37,44 @@ toggleGlassesBtn.addEventListener('click', ()=>{
   glasses.style.display = (glasses.style.display==='none')?'block':'none'; 
 });
 
+// --- 黒背景透過で描画 ---
+function drawWithTransparency(ctx, el, xRatio, yRatio, sizeRatio, canvasWidth, canvasHeight){
+  if(!el || el.style.display==='none') return;
+  const w = Math.floor(canvasWidth*sizeRatio);
+  const h = w;
+  const x = Math.floor(canvasWidth*xRatio);
+  const y = Math.floor(canvasHeight*yRatio);
+
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = w;
+  tempCanvas.height = h;
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCtx.drawImage(el,0,0,w,h);
+
+  const imgData = tempCtx.getImageData(0,0,w,h);
+  const data = imgData.data;
+  for(let i=0;i<data.length;i+=4){
+    if(data[i]<40 && data[i+1]<40 && data[i+2]<40){
+      data[i+3]=0;
+    }
+  }
+  tempCtx.putImageData(imgData,0,0);
+  ctx.drawImage(tempCanvas,x,y,w,h);
+}
+
 // --- シャッター ---
 snapBtn.addEventListener('click', ()=>{
   const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+  canvas.width=video.videoWidth; canvas.height=video.videoHeight;
   const ctx = canvas.getContext('2d');
 
   ctx.drawImage(video,0,0,canvas.width,canvas.height);
-
-  function drawVideoOrImg(el,xRatio,yRatio,sizeRatio){
-    if(!el || el.style.display==='none') return;
-    const w = Math.floor(canvas.width*sizeRatio);
-    const h = w;
-    const x = Math.floor(canvas.width*xRatio);
-    const y = Math.floor(canvas.height*yRatio);
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width=w; tempCanvas.height=h;
-    const tempCtx=tempCanvas.getContext('2d');
-    if(el.tagName==='VIDEO'){ tempCtx.drawImage(el,0,0,w,h); }
-    else { tempCtx.drawImage(el,0,0,w,h); }
-    ctx.drawImage(tempCanvas,x,y,w,h);
-  }
-
-  drawVideoOrImg(flame,0.34,0.1,0.2);
-  drawVideoOrImg(flame2,0.45,0.1,0.2);
-  drawVideoOrImg(glasses,0.36,0.2,0.28);
+  drawWithTransparency(ctx, flame, 0.34, 0.1, 0.2, canvas.width, canvas.height);
+  drawWithTransparency(ctx, flame2, 0.45, 0.1, 0.2, canvas.width, canvas.height);
+  drawWithTransparency(ctx, glasses, 0.36, 0.2, 0.28, canvas.width, canvas.height);
 
   canvas.toBlob(blob=>{
-    const url = URL.createObjectURL(blob);
+    const url=URL.createObjectURL(blob);
     const a=document.createElement('a'); a.href=url; a.download='snapshot.png'; a.click();
     URL.revokeObjectURL(url);
   },'image/png');
@@ -76,15 +86,14 @@ let recorder, chunks=[], recording=false, timerInterval;
 recordBtn.addEventListener('click', ()=>{
   if(!recording){
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+    canvas.width=video.videoWidth; canvas.height=video.videoHeight;
     const ctx = canvas.getContext('2d');
 
-    // 画面合成フレーム描画
     function drawAll(){
       ctx.drawImage(video,0,0,canvas.width,canvas.height);
-      if(flame.style.display!=='none'){ ctx.drawImage(flame,canvas.width*0.34,canvas.height*0.1,canvas.width*0.2,canvas.width*0.2); }
-      if(flame2.style.display!=='none'){ ctx.drawImage(flame2,canvas.width*0.45,canvas.height*0.1,canvas.width*0.2,canvas.width*0.2); }
-      if(glasses.style.display!=='none'){ ctx.drawImage(glasses,canvas.width*0.36,canvas.height*0.2,canvas.width*0.28,canvas.width*0.28); }
+      drawWithTransparency(ctx, flame, 0.34, 0.1, 0.2, canvas.width, canvas.height);
+      drawWithTransparency(ctx, flame2, 0.45, 0.1, 0.2, canvas.width, canvas.height);
+      drawWithTransparency(ctx, glasses, 0.36, 0.2, 0.28, canvas.width, canvas.height);
       requestAnimationFrame(drawAll);
     }
     drawAll();
@@ -92,9 +101,9 @@ recordBtn.addEventListener('click', ()=>{
     const stream = canvas.captureStream();
     recorder = new MediaRecorder(stream);
     recorder.ondataavailable = e=>chunks.push(e.data);
-    recorder.onstop=()=>{
-      const blob=new Blob(chunks,{type:'video/webm'});
-      const url=URL.createObjectURL(blob);
+    recorder.onstop = ()=>{
+      const blob = new Blob(chunks,{type:'video/webm'});
+      const url = URL.createObjectURL(blob);
       const a=document.createElement('a'); a.href=url; a.download='recording.webm'; a.click();
       URL.revokeObjectURL(url);
     };
