@@ -16,8 +16,22 @@ let sunglassesOn = false;
 const sunglassesImg = new Image();
 sunglassesImg.src = "38578.png";
 
+// ===== canvas for snapshot/record =====
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
+
+// ===== canvas for overlay (画面上にリアルタイム描画) =====
+const overlay = document.createElement('canvas');
+overlay.id = 'overlay';
+overlay.style.position = 'fixed';
+overlay.style.top = '0';
+overlay.style.left = '0';
+overlay.style.width = '100vw';
+overlay.style.height = '100vh';
+overlay.style.pointerEvents = 'none';
+overlay.style.zIndex = '12';
+document.body.appendChild(overlay);
+const overlayCtx = overlay.getContext('2d');
 
 navigator.mediaDevices.getUserMedia({
   video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }
@@ -29,12 +43,31 @@ navigator.mediaDevices.getUserMedia({
   video.addEventListener('loadedmetadata', () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
+    overlay.width = video.videoWidth;
+    overlay.height = video.videoHeight;
   });
 });
 
+// ===== サングラスボタン =====
 addSunglassesBtn.addEventListener("click", () => {
   sunglassesOn = !sunglassesOn;
 });
+
+// ===== overlay にリアルタイム描画 =====
+function drawOverlay() {
+  overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+
+  if (sunglassesOn) {
+    const w = overlay.width * 0.3;
+    const h = w * (sunglassesImg.height / sunglassesImg.width);
+    const x = overlay.width * 0.35;
+    const y = overlay.height * 0.25;
+    overlayCtx.drawImage(sunglassesImg, x, y, w, h);
+  }
+
+  requestAnimationFrame(drawOverlay);
+}
+drawOverlay();
 
 // ===== シャッター機能（写真） =====
 snapBtn.addEventListener('click', () => {
@@ -71,7 +104,6 @@ snapBtn.addEventListener('click', () => {
   drawFlame(flame, 0.34, 0.1, 0.2);
   drawFlame(flame2, 0.45, 0.1, 0.2);
 
-  // サングラス描画追加
   if (sunglassesOn) {
     const w = canvas.width * 0.3;
     const h = w * (sunglassesImg.height / sunglassesImg.width);
@@ -149,7 +181,6 @@ recordBtn.addEventListener('click', () => {
       drawFlame(flame, 0.34, 0.1, 0.2);
       drawFlame(flame2, 0.45, 0.1, 0.2);
 
-      // サングラス描画追加
       if (sunglassesOn) {
         const w = canvas.width * 0.3;
         const h = w * (sunglassesImg.height / sunglassesImg.width);
@@ -200,8 +231,3 @@ function stopTimer() {
   timer.style.display = 'none';
   clearInterval(timerInterval);
 }
-addSunglassesBtn.addEventListener("click", () => {
-  sunglassesOn = !sunglassesOn;
-  const sunglassesOverlay = document.getElementById('sunglassesOverlay');
-  if (sunglassesOverlay) sunglassesOverlay.style.display = sunglassesOn ? 'block' : 'none';
-});
