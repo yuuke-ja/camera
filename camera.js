@@ -4,18 +4,21 @@ const flame2 = document.getElementById('flame2');
 const snapBtn = document.getElementById('snap');
 const recordBtn = document.getElementById('record');
 const toggleFlameBtn = document.getElementById('toggleFlame');
+const addSunglassesBtn = document.getElementById("addSunglasses");
 const timer = document.getElementById('timer');
 
 let recorder;
 let chunks = [];
 let recording = false;
 let timerInterval;
+let sunglassesOn = false;
 
-// Canvas 用意（録画用）
+const sunglassesImg = new Image();
+sunglassesImg.src = "38578.png";
+
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
-// カメラ起動
 navigator.mediaDevices.getUserMedia({
   video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }
 }).then(stream => {
@@ -23,18 +26,20 @@ navigator.mediaDevices.getUserMedia({
   flame.style.display = 'none';
   flame2.style.display = 'none';
 
-  // canvas サイズを video に合わせる
   video.addEventListener('loadedmetadata', () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
   });
 });
 
+addSunglassesBtn.addEventListener("click", () => {
+  sunglassesOn = !sunglassesOn;
+});
+
 // ===== シャッター機能（写真） =====
 snapBtn.addEventListener('click', () => {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -66,11 +71,20 @@ snapBtn.addEventListener('click', () => {
   drawFlame(flame, 0.34, 0.1, 0.2);
   drawFlame(flame2, 0.45, 0.1, 0.2);
 
+  // サングラス描画追加
+  if (sunglassesOn) {
+    const w = canvas.width * 0.3;
+    const h = w * (sunglassesImg.height / sunglassesImg.width);
+    const x = canvas.width * 0.35;
+    const y = canvas.height * 0.25;
+    ctx.drawImage(sunglassesImg, x, y, w, h);
+  }
+
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'snapshot_with_flame.png';
+    a.download = 'snapshot_with_flame_sunglasses.png';
     a.click();
     URL.revokeObjectURL(url);
   }, 'image/png');
@@ -82,11 +96,9 @@ categoryBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const category = btn.dataset.category;
     const subMenu = document.getElementById(`${category}-buttons`);
-
     document.querySelectorAll('.sub-buttons').forEach(menu => {
       if (menu !== subMenu) menu.style.display = 'none';
     });
-
     subMenu.style.display = (subMenu.style.display === 'block') ? 'none' : 'block';
   });
 });
@@ -98,15 +110,13 @@ toggleFlameBtn.addEventListener('click', () => {
   flame2.style.display = isHidden ? 'block' : 'none';
 });
 
-// ===== 録画機能（炎合成対応） =====
+// ===== 録画 =====
 recordBtn.addEventListener('click', () => {
   if (!recording) {
     chunks = [];
-
     recording = true;
     recordBtn.textContent = '■ 停止';
 
-    // 毎フレーム canvas に描画
     function drawFrame() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -139,6 +149,15 @@ recordBtn.addEventListener('click', () => {
       drawFlame(flame, 0.34, 0.1, 0.2);
       drawFlame(flame2, 0.45, 0.1, 0.2);
 
+      // サングラス描画追加
+      if (sunglassesOn) {
+        const w = canvas.width * 0.3;
+        const h = w * (sunglassesImg.height / sunglassesImg.width);
+        const x = canvas.width * 0.35;
+        const y = canvas.height * 0.25;
+        ctx.drawImage(sunglassesImg, x, y, w, h);
+      }
+
       if (recording) requestAnimationFrame(drawFrame);
     }
     drawFrame();
@@ -151,13 +170,12 @@ recordBtn.addEventListener('click', () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'recording_with_flame.webm';
+      a.download = 'recording_with_flame_sunglasses.webm';
       a.click();
       URL.revokeObjectURL(url);
     };
     recorder.start();
     startTimer();
-
   } else {
     recorder.stop();
     recording = false;
