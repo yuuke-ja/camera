@@ -20,31 +20,78 @@ navigator.mediaDevices.getUserMedia({
   flame2.style.display = 'none';
 });
 
-// サブボタンのトグル
+// カメラシャッター
+snapBtn.addEventListener('click', () => {
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
+    if (!flameEl || flameEl.style.display === 'none') return;
+
+    const flameW = Math.floor(canvas.width * sizeRatio);
+    const flameH = flameW;
+    const flameX = Math.floor(canvas.width * xRatio);
+    const flameY = Math.floor(canvas.height * yRatio);
+
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = flameW;
+    tempCanvas.height = flameH;
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
+
+    const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
+    const data = imgData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) {
+        data[i + 3] = 0;
+      }
+    }
+    tempCtx.putImageData(imgData, 0, 0);
+
+    ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
+  }
+
+  drawFlame(flame, 0.34, 0.1, 0.2);
+  drawFlame(flame2, 0.45, 0.1, 0.2);
+
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'snapshot_with_flame.png';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+});
+
+// ===== サブボタンのトグル =====
 const categoryBtns = document.querySelectorAll('.category-btn');
 categoryBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const category = btn.dataset.category;
     const subMenu = document.getElementById(`${category}-buttons`);
 
-    // 他のサブメニューを閉じる
     document.querySelectorAll('.sub-buttons').forEach(menu => {
       if (menu !== subMenu) menu.style.display = 'none';
     });
 
-    // 押したカテゴリだけトグル
     subMenu.style.display = (subMenu.style.display === 'block') ? 'none' : 'block';
   });
 });
 
-// 炎表示切替
+// ===== 炎表示切替 =====
 toggleFlameBtn.addEventListener('click', () => {
   const isHidden = flame.style.display === 'none' || flame.style.display === '';
   flame.style.display = isHidden ? 'block' : 'none';
   flame2.style.display = isHidden ? 'block' : 'none';
 });
 
-// 録画機能
+// ===== 録画機能 =====
 recordBtn.addEventListener('click', () => {
   if (!recording) {
     chunks = [];
@@ -71,7 +118,7 @@ recordBtn.addEventListener('click', () => {
   }
 });
 
-// タイマー処理
+// ===== タイマー =====
 function startTimer() {
   timer.style.display = 'block';
   let seconds = 0;
