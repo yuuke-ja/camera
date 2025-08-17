@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Full Screen Camera with Flame</title>
+  <title>Camera with Categories</title>
   <link rel="stylesheet" href="camera.css" />
 </head>
 <body>
@@ -17,9 +17,29 @@
       <source src="212710_small.mp4" type="video/mp4" />
     </video>
 
+    <!-- 共通ボタン -->
     <button id="snap">📸 シャッター</button>
     <button id="record">● 録画</button>
-    <button id="toggleFlame">🔥 炎ON/OFF</button>
+
+    <!-- カテゴリーボタン -->
+    <div class="category-buttons">
+      <button class="category-btn" data-category="head">🧢 頭</button>
+      <button class="category-btn" data-category="face">🙂 顔</button>
+      <button class="category-btn" data-category="bg">🌄 背景</button>
+    </div>
+
+    <!-- サブボタン -->
+    <div class="sub-buttons" id="head-buttons">
+      <button>🎩 帽子ON/OFF</button>
+    </div>
+
+    <div class="sub-buttons" id="face-buttons">
+      <button id="toggleFlame">🔥 炎ON/OFF</button>
+    </div>
+
+    <div class="sub-buttons" id="bg-buttons">
+      <button>🌌 背景ON/OFF</button>
+    </div>
 
     <div id="timer" style="display:none;">00:00</div>
     <div id="face-frame"></div>

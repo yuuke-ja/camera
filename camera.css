@@ -2,8 +2,8 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: black;
   overflow: hidden;
-  background-color: black;
 }
 
 #video {
@@ -14,12 +14,7 @@ html, body {
   z-index: 0;
 }
 
-.video-wrapper {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
+.video-wrapper { position: relative; width: 100vw; height: 100vh; }
 
 #flame, #flame2 {
   position: fixed;
@@ -31,57 +26,72 @@ html, body {
   mix-blend-mode: screen;
   opacity: 1;
   z-index: 5;
-  display: none ; /* 初期非表示に強制 */
+  display: none;
 }
+#flame { left: 34%; }
+#flame2 { left: 45%; }
 
-#flame {
-  left: 34%;
-}
-
-#flame2 {
-  left: 45%;
-}
-
-#snap, #record, #toggleFlame {
+#snap, #record {
   position: absolute;
   bottom: 20px;
   z-index: 10;
   padding: 10px 15px;
   font-size: 16px;
-  border: none;
-  border-radius: 8px;
+  border: none; border-radius: 8px;
+  background: rgba(255,255,255,0.8);
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.8);
 }
+#snap { right: 140px; }
+#record { right: 80px; }
 
-#snap {
-  right: 140px;
-}
-
-#record {
-  right: 80px;
-}
-
-#toggleFlame {
+.category-buttons {
+  position: absolute;
+  bottom: 70px;
   right: 20px;
+  z-index: 10;
+}
+.category-btn {
+  display: block;
+  margin-bottom: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  background: rgba(200,200,200,0.8);
+  border: none;
+  cursor: pointer;
+}
+
+.sub-buttons {
+  display: none;
+  position: absolute;
+  bottom: 120px;
+  right: 20px;
+  z-index: 10;
+}
+.sub-buttons button {
+  display: block;
+  margin-bottom: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  cursor: pointer;
 }
 
 #timer {
   color: aliceblue;
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 20px; right: 20px;
   font-size: 24px;
   z-index: 20;
 }
 
 #face-frame {
   position: fixed;
-  top: 40%;
-  left: 50%;
+  top: 40%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 25vw;
-  height: 32vw;
+  width: 25vw; height: 32vw;
   border: 4px solid #00ffcc;
   border-radius: 50% / 60%;
   box-shadow: 0 0 15px #00ffcc;
