@@ -11,6 +11,10 @@ let chunks = [];
 let recording = false;
 let timerInterval;
 
+// Canvas 用意（録画用）
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+
 // カメラ起動
 navigator.mediaDevices.getUserMedia({
   video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }
@@ -18,14 +22,18 @@ navigator.mediaDevices.getUserMedia({
   video.srcObject = stream;
   flame.style.display = 'none';
   flame2.style.display = 'none';
+
+  // canvas サイズを video に合わせる
+  video.addEventListener('loadedmetadata', () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+  });
 });
 
-// カメラシャッター
+// ===== シャッター機能（写真） =====
 snapBtn.addEventListener('click', () => {
-  const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -52,7 +60,6 @@ snapBtn.addEventListener('click', () => {
       }
     }
     tempCtx.putImageData(imgData, 0, 0);
-
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
@@ -91,25 +98,66 @@ toggleFlameBtn.addEventListener('click', () => {
   flame2.style.display = isHidden ? 'block' : 'none';
 });
 
-// ===== 録画機能 =====
+// ===== 録画機能（炎合成対応） =====
 recordBtn.addEventListener('click', () => {
   if (!recording) {
     chunks = [];
-    recorder = new MediaRecorder(video.srcObject);
+
+    recording = true;
+    recordBtn.textContent = '■ 停止';
+
+    // 毎フレーム canvas に描画
+    function drawFrame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
+        if (!flameEl || flameEl.style.display === 'none') return;
+
+        const flameW = Math.floor(canvas.width * sizeRatio);
+        const flameH = flameW;
+        const flameX = Math.floor(canvas.width * xRatio);
+        const flameY = Math.floor(canvas.height * yRatio);
+
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = flameW;
+        tempCanvas.height = flameH;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
+
+        const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) {
+            data[i + 3] = 0;
+          }
+        }
+        tempCtx.putImageData(imgData, 0, 0);
+        ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
+      }
+
+      drawFlame(flame, 0.34, 0.1, 0.2);
+      drawFlame(flame2, 0.45, 0.1, 0.2);
+
+      if (recording) requestAnimationFrame(drawFrame);
+    }
+    drawFrame();
+
+    const stream = canvas.captureStream(30);
+    recorder = new MediaRecorder(stream);
     recorder.ondataavailable = e => chunks.push(e.data);
-    recorder.onstop = e => {
+    recorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'recording.webm';
+      a.download = 'recording_with_flame.webm';
       a.click();
       URL.revokeObjectURL(url);
     };
     recorder.start();
-    recording = true;
-    recordBtn.textContent = '■ 停止';
     startTimer();
+
   } else {
     recorder.stop();
     recording = false;
