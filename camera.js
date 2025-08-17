@@ -200,3 +200,8 @@ function stopTimer() {
   timer.style.display = 'none';
   clearInterval(timerInterval);
 }
+addSunglassesBtn.addEventListener("click", () => {
+  sunglassesOn = !sunglassesOn;
+  const sunglassesOverlay = document.getElementById('sunglassesOverlay');
+  if (sunglassesOverlay) sunglassesOverlay.style.display = sunglassesOn ? 'block' : 'none';
+});
