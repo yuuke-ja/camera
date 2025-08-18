@@ -19,7 +19,7 @@ html, body {
 #flame, #flame2 {
   position: fixed;
   filter: brightness(1) contrast(1) saturate(2);
-  top: 4%;
+  top: 14%;
   width: 20vw; height: 20vw;
   object-fit: cover;
   pointer-events: none;
@@ -28,8 +28,10 @@ html, body {
   z-index: 5;
   display: none;
 }
+
 #flame { left: 34%; }
 #flame2 { left: 45%; }
+
 
 #snap, #record {
   position: absolute;
