@@ -5,6 +5,7 @@ const snapBtn = document.getElementById('snap');
 const recordBtn = document.getElementById('record');
 const toggleFlameBtn = document.getElementById('toggleFlame');
 const addSunglassesBtn = document.getElementById("addSunglasses");
+const toggleSantaBtn = document.getElementById("toggleSanta"); // サンタボタン
 const timer = document.getElementById('timer');
 
 let recorder;
@@ -12,9 +13,13 @@ let chunks = [];
 let recording = false;
 let timerInterval;
 let sunglassesOn = false;
+let santaHatOn = false;
 
 const sunglassesImg = new Image();
 sunglassesImg.src = "38578.png"; // 🕶サングラス画像
+
+const santaHatImg = new Image();
+santaHatImg.src = "13102.png"; // 🎅サンタ帽子画像
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -36,8 +41,8 @@ navigator.mediaDevices.getUserMedia({
   video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }
 }).then(stream => {
   video.srcObject = stream;
-  flame.style.display = 'none';  // 初期非表示
-  flame2.style.display = 'none'; // 初期非表示
+  flame.style.display = 'none';
+  flame2.style.display = 'none';
 
   video.addEventListener('loadedmetadata', () => {
     canvas.width = video.videoWidth;
@@ -47,28 +52,41 @@ navigator.mediaDevices.getUserMedia({
   });
 });
 
-// サングラスボタン 
+// サングラスボタン
 addSunglassesBtn.addEventListener("click", () => {
-  sunglassesOn = !sunglassesOn; // UIトグル
+  sunglassesOn = !sunglassesOn;
 });
 
-// サングラスリアルタイム描画 
+// サンタ帽子ボタン
+toggleSantaBtn.addEventListener("click", () => {
+  santaHatOn = !santaHatOn;
+});
+
+// リアルタイム描画
 function drawOverlay() {
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
 
   if (sunglassesOn) {
-    const w = overlay.width * 0.3; // 🕶幅
-    const h = w * (sunglassesImg.height / sunglassesImg.width); // 🕶高さ
-    const x = overlay.width * 0.35; // 🕶X座標
-    const y = overlay.height * 0.25; // 🕶Y座標
+    const w = overlay.width * 0.3;
+    const h = w * (sunglassesImg.height / sunglassesImg.width);
+    const x = overlay.width * 0.35;
+    const y = overlay.height * 0.25;
     overlayCtx.drawImage(sunglassesImg, x, y, w, h);
+  }
+
+  if (santaHatOn) {
+    const w = overlay.width * 0.4;
+    const h = w * (santaHatImg.height / santaHatImg.width);
+    const x = overlay.width * 0.3;
+    const y = overlay.height * 0.05;
+    overlayCtx.drawImage(santaHatImg, x, y, w, h);
   }
 
   requestAnimationFrame(drawOverlay);
 }
 drawOverlay();
 
-//  シャッター機能（写真） 
+// シャッター
 snapBtn.addEventListener('click', () => {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -77,45 +95,48 @@ snapBtn.addEventListener('click', () => {
 
   function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
     if (!flameEl || flameEl.style.display === 'none') return;
-
-    const flameW = Math.floor(canvas.width * sizeRatio);  // 🔥幅
-    const flameH = flameW;                                // 🔥高さ
-    const flameX = Math.floor(canvas.width * xRatio);     // 🔥X座標
-    const flameY = Math.floor(canvas.height * yRatio);    // 🔥Y座標
-
+    const flameW = Math.floor(canvas.width * sizeRatio);
+    const flameH = flameW;
+    const flameX = Math.floor(canvas.width * xRatio);
+    const flameY = Math.floor(canvas.height * yRatio);
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = flameW;
     tempCanvas.height = flameH;
     const tempCtx = tempCanvas.getContext('2d');
     tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
-
     const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
     const data = imgData.data;
     for (let i = 0; i < data.length; i += 4) {
-      if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) {
-        data[i + 3] = 0;
-      }
+      if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) data[i+3] = 0;
     }
     tempCtx.putImageData(imgData, 0, 0);
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
-  drawFlame(flame, 0.34, 0.1, 0.2);  // 🔥炎1 UI
-  drawFlame(flame2, 0.45, 0.1, 0.2); // 🔥炎2 UI
+  drawFlame(flame, 0.34, 0.1, 0.2);
+  drawFlame(flame2, 0.45, 0.1, 0.2);
 
   if (sunglassesOn) {
-    const w = canvas.width * 0.3;  // 🕶幅
-    const h = w * (sunglassesImg.height / sunglassesImg.width); // 🕶高さ
-    const x = canvas.width * 0.35; // 🕶X座標
-    const y = canvas.height * 0.25; // 🕶Y座標
+    const w = canvas.width * 0.3;
+    const h = w * (sunglassesImg.height / sunglassesImg.width);
+    const x = canvas.width * 0.35;
+    const y = canvas.height * 0.25;
     ctx.drawImage(sunglassesImg, x, y, w, h);
+  }
+
+  if (santaHatOn) {
+    const w = canvas.width * 0.4;
+    const h = w * (santaHatImg.height / santaHatImg.width);
+    const x = canvas.width * 0.3;
+    const y = canvas.height * 0.05;
+    ctx.drawImage(santaHatImg, x, y, w, h);
   }
 
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'snapshot_with_flame_sunglasses.png';
+    a.download = 'snapshot_with_flame_sunglasses_santa.png';
     a.click();
     URL.revokeObjectURL(url);
   }, 'image/png');
@@ -133,14 +154,14 @@ categoryBtns.forEach(btn => {
   });
 });
 
-// 炎表示切替 
+// 炎表示切替
 toggleFlameBtn.addEventListener('click', () => {
   const isHidden = flame.style.display === 'none' || flame.style.display === '';
-  flame.style.display = isHidden ? 'block' : 'none';   // 🔥UI: display toggle
-  flame2.style.display = isHidden ? 'block' : 'none';  // 🔥UI: display toggle
+  flame.style.display = isHidden ? 'block' : 'none';
+  flame2.style.display = isHidden ? 'block' : 'none';
 });
 
-// 録画 
+// 録画
 recordBtn.addEventListener('click', () => {
   if (!recording) {
     chunks = [];
@@ -153,26 +174,21 @@ recordBtn.addEventListener('click', () => {
 
       function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
         if (!flameEl || flameEl.style.display === 'none') return;
-
-        const flameW = Math.floor(canvas.width * sizeRatio);  // 🔥幅
-        const flameH = flameW;                                // 🔥高さ
-        const flameX = Math.floor(canvas.width * xRatio);     // 🔥X座標
-        const flameY = Math.floor(canvas.height * yRatio);    // 🔥Y座標
-
+        const flameW = Math.floor(canvas.width * sizeRatio);
+        const flameH = flameW;
+        const flameX = Math.floor(canvas.width * xRatio);
+        const flameY = Math.floor(canvas.height * yRatio);
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = flameW;
         tempCanvas.height = flameH;
         const tempCtx = tempCanvas.getContext('2d');
         tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
-
         const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
         const data = imgData.data;
         for (let i = 0; i < data.length; i += 4) {
-          if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) {
-            data[i + 3] = 0;
-          }
+          if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40) data[i+3]=0;
         }
-        tempCtx.putImageData(imgData, 0, 0);
+        tempCtx.putImageData(imgData,0,0);
         ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
       }
 
@@ -180,11 +196,19 @@ recordBtn.addEventListener('click', () => {
       drawFlame(flame2, 0.45, 0.1, 0.2);
 
       if (sunglassesOn) {
-        const w = canvas.width * 0.3; // 🕶幅
-        const h = w * (sunglassesImg.height / sunglassesImg.width); // 🕶高さ
-        const x = canvas.width * 0.35; // 🕶X座標
-        const y = canvas.height * 0.25; // 🕶Y座標
+        const w = canvas.width * 0.3;
+        const h = w * (sunglassesImg.height / sunglassesImg.width);
+        const x = canvas.width * 0.35;
+        const y = canvas.height * 0.25;
         ctx.drawImage(sunglassesImg, x, y, w, h);
+      }
+
+      if (santaHatOn) {
+        const w = canvas.width * 0.4;
+        const h = w * (santaHatImg.height / santaHatImg.width);
+        const x = canvas.width * 0.3;
+        const y = canvas.height * 0.05;
+        ctx.drawImage(santaHatImg, x, y, w, h);
       }
 
       if (recording) requestAnimationFrame(drawFrame);
@@ -199,7 +223,7 @@ recordBtn.addEventListener('click', () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'recording_with_flame_sunglasses.webm';
+      a.download = 'recording_with_flame_sunglasses_santa.webm';
       a.click();
       URL.revokeObjectURL(url);
     };
@@ -213,7 +237,7 @@ recordBtn.addEventListener('click', () => {
   }
 });
 
-// タイマー 
+// タイマー
 function startTimer() {
   timer.style.display = 'block';
   let seconds = 0;
