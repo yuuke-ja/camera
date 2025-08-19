@@ -124,7 +124,7 @@ snapBtn.addEventListener('click', () => {
     const h = w * (santaHatImg.height / santaHatImg.width);
     const x = (overlay.width - w) / 2;
     const y = overlay.height * 0.0; // 修正済み
-    overlayCtx.drawImage(santaHatImg, x, y, w, h);
+    ctx.drawImage(santaHatImg, x, y, w, h);
   }
 
   canvas.toBlob(blob => {
@@ -201,7 +201,7 @@ recordBtn.addEventListener('click', () => {
         const h = w * (santaHatImg.height / santaHatImg.width);
         const x = (overlay.width - w) / 2;
         const y = overlay.height * 0.0; // 修正済み
-        overlayCtx.drawImage(santaHatImg, x, y, w, h);
+        ctx.drawImage(santaHatImg, x, y, w, h);
       }
 
       if (recording) requestAnimationFrame(drawFrame);
