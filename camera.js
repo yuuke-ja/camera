@@ -22,7 +22,7 @@ sunglassesImg.src = "38578.png";
 const santaHatImg = new Image();
 santaHatImg.src = "13102.png";
 const haloImg = new Image();
-haloImg.src = encodeURI("nc293622_天使の輪（キラキラ）【フリー素材あそび】.png");
+haloImg.src = "halo.png";
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
