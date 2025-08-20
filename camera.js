@@ -9,6 +9,7 @@ const toggleSantaBtn = document.getElementById("toggleSanta");
 const toggleHaloBtn = document.getElementById("toggleHalo");
 const timer = document.getElementById('timer');
 const toggleHigeBtn = document.getElementById("toggleHige");
+const toggleTunoBtn = document.getElementById("toggleTuno");
 
 let recorder;
 let chunks = [];
@@ -18,6 +19,7 @@ let sunglassesOn = false;
 let santaHatOn = false;
 let haloOn = false;
 let higeOn = false;
+let tunoOn = false;
 
 const sunglassesImg = new Image();
 sunglassesImg.src = "38578.png";
@@ -27,6 +29,8 @@ const haloImg = new Image();
 haloImg.src = "halo.png";
 const higeImg = new Image();
 higeImg.src = "hige.png";
+const tunoImg = new Image();
+tunoImg.src = "tuno.png";
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -70,6 +74,9 @@ toggleHaloBtn.addEventListener("click", () => {
 toggleHigeBtn.addEventListener("click", () => {
   higeOn = !higeOn;
 });
+toggleTunoBtn.addEventListener("click", () => {
+  tunoOn = !tunoOn;
+});
 
 function drawOverlay() {
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
@@ -78,7 +85,7 @@ function drawOverlay() {
     const w = overlay.width * 0.3;
     const h = w * (sunglassesImg.height / sunglassesImg.width);
     const x = overlay.width * 0.35;
-    const y = overlay.height * 0.35; // 修正済み
+    const y = overlay.height * 0.35; 
     overlayCtx.drawImage(sunglassesImg, x, y, w, h);
   }
 
@@ -86,14 +93,14 @@ function drawOverlay() {
     const w = overlay.width * 0.3;
     const h = w * (santaHatImg.height / santaHatImg.width);
     const x = (overlay.width - w) / 2;
-    const y = overlay.height * 0.0; // 修正済み
+    const y = overlay.height * 0.0; 
     overlayCtx.drawImage(santaHatImg, x, y, w, h);
   }
   if (haloOn && haloImg.complete) {
     const w = overlay.width * 0.3;
     const h = w * (haloImg.height / haloImg.width);
     const x = (overlay.width - w) / 2;
-    const y = overlay.height * -0.02; // ほんの少し上に（好みで微調整可）
+    const y = overlay.height * -0.02; 
     overlayCtx.drawImage(haloImg, x, y, w, h);
   }
   if (higeOn && higeImg.complete) {
@@ -103,6 +110,14 @@ function drawOverlay() {
     const y = overlay.height * 0.35;
     overlayCtx.drawImage(higeImg, x, y, w, h);
   }
+  if (tunoOn && tunoImg.complete) {
+    const w = overlay.width * 0.3; // サイズは適宜調整
+    const h = w * (tunoImg.height / tunoImg.width);
+    const x = (overlay.width - w) / 2; // 頭の中央
+    const y = overlay.height * -0.05; // 頭の上
+    overlayCtx.drawImage(tunoImg, x, y, w, h);
+  }
+  
 
   requestAnimationFrame(drawOverlay);
 }
@@ -134,14 +149,14 @@ snapBtn.addEventListener('click', () => {
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
 
-  drawFlame(flame, 0.34, 0.2, 0.2);  // 修正済み
-  drawFlame(flame2, 0.45, 0.2, 0.2); // 修正済み
+  drawFlame(flame, 0.34, 0.2, 0.2);  
+  drawFlame(flame2, 0.45, 0.2, 0.2); 
 
   if (sunglassesOn) {
     const w = canvas.width * 0.3;
     const h = w * (sunglassesImg.height / sunglassesImg.width);
     const x = canvas.width * 0.35;
-    const y = canvas.height * 0.35; // 修正済み
+    const y = canvas.height * 0.35; 
     ctx.drawImage(sunglassesImg, x, y, w, h);
   }
 
@@ -149,7 +164,7 @@ snapBtn.addEventListener('click', () => {
     const w = overlay.width * 0.3;
     const h = w * (santaHatImg.height / santaHatImg.width);
     const x = (overlay.width - w) / 2;
-    const y = overlay.height * 0.0; // 修正済み
+    const y = overlay.height * 0.0; 
     ctx.drawImage(santaHatImg, x, y, w, h);
   }
   if (haloOn && haloImg.complete) {
@@ -166,6 +181,14 @@ snapBtn.addEventListener('click', () => {
     const y = canvas.height * 0.35;
     ctx.drawImage(higeImg, x, y, w, h);
   }
+  if (tunoOn && tunoImg.complete) {
+    const w = canvas.width * 0.3;
+    const h = w * (tunoImg.height / tunoImg.width);
+    const x = (canvas.width - w) / 2;
+    const y = canvas.height * -0.05;
+    ctx.drawImage(tunoImg, x, y, w, h);
+  }
+  
 
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
@@ -257,6 +280,14 @@ recordBtn.addEventListener('click', () => {
         const y = canvas.height * 0.35;
         ctx.drawImage(higeImg, x, y, w, h);
       }
+      if (tunoOn && tunoImg.complete) {
+        const w = canvas.width * 0.3;
+        const h = w * (tunoImg.height / tunoImg.width);
+        const x = (canvas.width - w) / 2;
+        const y = canvas.height * -0.05;
+        ctx.drawImage(tunoImg, x, y, w, h);
+      }
+      
 
       if (recording) requestAnimationFrame(drawFrame);
     }
