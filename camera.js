@@ -8,6 +8,7 @@ const addSunglassesBtn = document.getElementById("addSunglasses");
 const toggleSantaBtn = document.getElementById("toggleSanta");
 const toggleHaloBtn = document.getElementById("toggleHalo");
 const timer = document.getElementById('timer');
+const toggleHigeBtn = document.getElementById("toggleHige");
 
 let recorder;
 let chunks = [];
@@ -16,6 +17,7 @@ let timerInterval;
 let sunglassesOn = false;
 let santaHatOn = false;
 let haloOn = false;
+let higeOn = false;
 
 const sunglassesImg = new Image();
 sunglassesImg.src = "38578.png";
@@ -23,6 +25,8 @@ const santaHatImg = new Image();
 santaHatImg.src = "13102.png";
 const haloImg = new Image();
 haloImg.src = "halo.png";
+const higeImg = new Image();
+higeImg.src = "hige.png";
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -63,6 +67,9 @@ toggleSantaBtn.addEventListener("click", () => {
 toggleHaloBtn.addEventListener("click", () => {
   haloOn = !haloOn;
 });
+toggleHigeBtn.addEventListener("click", () => {
+  higeOn = !higeOn;
+});
 
 function drawOverlay() {
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
@@ -88,6 +95,13 @@ function drawOverlay() {
     const x = (overlay.width - w) / 2;
     const y = overlay.height * -0.02; // ほんの少し上に（好みで微調整可）
     overlayCtx.drawImage(haloImg, x, y, w, h);
+  }
+  if (higeOn && higeImg.complete) {
+    const w = overlay.width * 0.3;
+    const h = w * (higeImg.height / higeImg.width);
+    const x = overlay.width * 0.35;
+    const y = overlay.height * 0.35;
+    overlayCtx.drawImage(higeImg, x, y, w, h);
   }
 
   requestAnimationFrame(drawOverlay);
@@ -144,6 +158,13 @@ snapBtn.addEventListener('click', () => {
     const x = (canvas.width - w) / 2;
     const y = canvas.height * -0.02;
     ctx.drawImage(haloImg, x, y, w, h);
+  }
+  if (higeOn && higeImg.complete) {
+    const w = canvas.width * 0.3;
+    const h = w * (higeImg.height / higeImg.width);
+    const x = canvas.width * 0.35;
+    const y = canvas.height * 0.35;
+    ctx.drawImage(higeImg, x, y, w, h);
   }
 
   canvas.toBlob(blob => {
@@ -228,6 +249,13 @@ recordBtn.addEventListener('click', () => {
         const x = (canvas.width - w) / 2;
         const y = canvas.height * -0.02;
         ctx.drawImage(haloImg, x, y, w, h);
+      }
+      if (higeOn && higeImg.complete) {
+        const w = canvas.width * 0.3;
+        const h = w * (higeImg.height / higeImg.width);
+        const x = canvas.width * 0.35;
+        const y = canvas.height * 0.35;
+        ctx.drawImage(higeImg, x, y, w, h);
       }
 
       if (recording) requestAnimationFrame(drawFrame);
