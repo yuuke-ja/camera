@@ -11,6 +11,7 @@ const timer = document.getElementById('timer');
 const toggleHigeBtn = document.getElementById("toggleHige");
 const toggleTunoBtn = document.getElementById("toggleTuno");
 const toggleGasMaskBtn = document.getElementById("togglegasmask");
+const toggleRabbitBtn = document.getElementById("toggleRabbit");
 
 let recorder;
 let chunks = [];
@@ -22,6 +23,7 @@ let haloOn = false;
 let higeOn = false;
 let tunoOn = false;
 let gasMaskOn = false;
+let rabbitOn = false;
 
 const sunglassesImg = new Image();
 sunglassesImg.src = "38578.png";
@@ -35,6 +37,9 @@ const tunoImg = new Image();
 tunoImg.src = "tuno.png";
 const gasMaskImg = new Image();
 gasMaskImg.src = "gasmask.png";
+const rabbitImg = new Image();
+rabbitImg.src = "Rabbit.png";
+
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -84,6 +89,10 @@ toggleTunoBtn.addEventListener("click", () => {
 toggleGasMaskBtn.addEventListener("click", () => {
   gasMaskOn = !gasMaskOn;
 });
+toggleRabbitBtn.addEventListener("click", () => {
+  rabbitOn = !rabbitOn;
+});
+
 
 function drawOverlay() {
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
@@ -130,6 +139,13 @@ function drawOverlay() {
     const x = overlay.width * 0.07;
     const y = overlay.height * 0.06;
     overlayCtx.drawImage(gasMaskImg, x, y, w, h);
+  }
+  if (rabbitOn && rabbitImg.complete) {
+    const w = overlay.width * 0.35;                         
+    const h = w * (rabbitImg.height / rabbitImg.width);     
+    const x = (overlay.width - w) / 2;                      
+    const y = overlay.height * -0.07;                       
+    overlayCtx.drawImage(rabbitImg, x, y, w, h);
   }
   
 
@@ -208,6 +224,13 @@ snapBtn.addEventListener('click', () => {
     const x = overlay.width * 0.07;
     const y = overlay.height * 0.06;
     ctx.drawImage(gasMaskImg, x, y, w, h);
+  }
+  if (rabbitOn && rabbitImg.complete) {
+    const w = canvas.width * 0.35;
+    const h = w * (rabbitImg.height / rabbitImg.width);
+    const x = (canvas.width - w) / 2;
+    const y = overlay.height * -0.07;
+    ctx.drawImage(rabbitImg, x, y, w, h);
   }
 
   
@@ -315,6 +338,13 @@ recordBtn.addEventListener('click', () => {
         const x = overlay.width * 0.07;
         const y = overlay.height * 0.06;
         ctx.drawImage(gasMaskImg, x, y, w, h);
+      }
+      if (rabbitOn && rabbitImg.complete) {
+        const w = canvas.width * 0.35;
+        const h = w * (rabbitImg.height / rabbitImg.width);
+        const x = (canvas.width - w) / 2;
+        const y = overlay.height * -0.07;
+        ctx.drawImage(rabbitImg, x, y, w, h);
       }
     
       
