@@ -10,6 +10,7 @@ const toggleHaloBtn = document.getElementById("toggleHalo");
 const timer = document.getElementById('timer');
 const toggleHigeBtn = document.getElementById("toggleHige");
 const toggleTunoBtn = document.getElementById("toggleTuno");
+const toggleGasMaskBtn = document.getElementById("togglegasmask");
 
 let recorder;
 let chunks = [];
@@ -20,6 +21,7 @@ let santaHatOn = false;
 let haloOn = false;
 let higeOn = false;
 let tunoOn = false;
+let gasMaskOn = false;
 
 const sunglassesImg = new Image();
 sunglassesImg.src = "38578.png";
@@ -31,6 +33,8 @@ const higeImg = new Image();
 higeImg.src = "hige.png";
 const tunoImg = new Image();
 tunoImg.src = "tuno.png";
+const gasMaskImg = new Image();
+gasMaskImg.src = "gasmask.png";
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -77,6 +81,9 @@ toggleHigeBtn.addEventListener("click", () => {
 toggleTunoBtn.addEventListener("click", () => {
   tunoOn = !tunoOn;
 });
+toggleGasMaskBtn.addEventListener("click", () => {
+  gasMaskOn = !gasMaskOn;
+});
 
 function drawOverlay() {
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
@@ -116,6 +123,13 @@ function drawOverlay() {
     const x = (overlay.width - w) / 2; // 頭の中央
     const y = overlay.height * -0.05; // 頭の上
     overlayCtx.drawImage(tunoImg, x, y, w, h);
+  }
+  if (gasMaskOn && gasMaskImg.complete) {
+    const w = overlay.width * 0.90;
+    const h = w * (gasMaskImg.height / gasMaskImg.width);
+    const x = overlay.width * 0.07;
+    const y = overlay.height * 0.06;
+    overlayCtx.drawImage(gasMaskImg, x, y, w, h);
   }
   
 
@@ -188,6 +202,14 @@ snapBtn.addEventListener('click', () => {
     const y = canvas.height * -0.05;
     ctx.drawImage(tunoImg, x, y, w, h);
   }
+  if (gasMaskOn && gasMaskImg.complete) {
+    const w = canvas.width * 0.35;
+    const h = w * (gasMaskImg.height / gasMaskImg.width);
+    const x = overlay.width * 0.07;
+    const y = overlay.height * 0.06;
+    ctx.drawImage(gasMaskImg, x, y, w, h);
+  }
+
   
 
   canvas.toBlob(blob => {
@@ -287,6 +309,14 @@ recordBtn.addEventListener('click', () => {
         const y = canvas.height * -0.05;
         ctx.drawImage(tunoImg, x, y, w, h);
       }
+      if (gasMaskOn && gasMaskImg.complete) {
+        const w = canvas.width * 0.35;
+        const h = w * (gasMaskImg.height / gasMaskImg.width);
+        const x = overlay.width * 0.07;
+        const y = overlay.height * 0.06;
+        ctx.drawImage(gasMaskImg, x, y, w, h);
+      }
+    
       
 
       if (recording) requestAnimationFrame(drawFrame);
