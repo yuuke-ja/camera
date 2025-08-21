@@ -203,7 +203,7 @@ snapBtn.addEventListener('click', () => {
     ctx.drawImage(tunoImg, x, y, w, h);
   }
   if (gasMaskOn && gasMaskImg.complete) {
-    const w = canvas.width * 0.35;
+    const w = overlay.width * 0.90;
     const h = w * (gasMaskImg.height / gasMaskImg.width);
     const x = overlay.width * 0.07;
     const y = overlay.height * 0.06;
@@ -310,7 +310,7 @@ recordBtn.addEventListener('click', () => {
         ctx.drawImage(tunoImg, x, y, w, h);
       }
       if (gasMaskOn && gasMaskImg.complete) {
-        const w = canvas.width * 0.35;
+        const w = overlay.width * 0.90;
         const h = w * (gasMaskImg.height / gasMaskImg.width);
         const x = overlay.width * 0.07;
         const y = overlay.height * 0.06;
