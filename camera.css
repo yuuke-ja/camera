@@ -104,29 +104,33 @@ html, body {
   #snap {
     left: 5%;
     width: 40%;
+    font-size: 4vw;
   }
   #record {
     right: 5%;
     width: 40%;
+    font-size: 4vw;
   }
 
   .category-buttons {
-    bottom: 25%;
+    bottom: 15%;   /* 下に少し余裕を持たせる */
     left: 3%;
     right: auto;
   }
 
   .category-btn {
-    padding: 2% 3%;
+    padding: 3% 5%;
     font-size: 4vw;
   }
 
   .sub-buttons {
-    bottom: 35%;
+    bottom: 25%;   /* categoryボタンの上に配置 */
     left: 3%;
+    display: none; /* 初期は非表示 */
   }
+
   .sub-buttons button {
-    padding: 2% 3%;
+    padding: 3% 5%;
     font-size: 4vw;
   }
 
