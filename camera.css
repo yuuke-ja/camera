@@ -114,8 +114,11 @@ html, body {
 
   .category-buttons {
     bottom: 15%;   /* 下に少し余裕を持たせる */
-    left: 3%;
+    left: 5%;      /* 左端から少し離す */
     right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3vw;
   }
 
   .category-btn {
@@ -125,8 +128,10 @@ html, body {
 
   .sub-buttons {
     bottom: 25%;   /* categoryボタンの上に配置 */
-    left: 3%;
+    left: 5%;      /* 左端から少し離す */
     display: none; /* 初期は非表示 */
+    flex-direction: column;
+    gap: 2vw;
   }
 
   .sub-buttons button {
