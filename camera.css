@@ -104,54 +104,36 @@ html, body {
   #snap {
     left: 5%;
     width: 40%;
-    font-size: 4vw;
   }
   #record {
     right: 5%;
     width: 40%;
-    font-size: 4vw;
   }
+
   .category-buttons {
-    position: fixed;   
-    top: 50%;   /* 画面中央 */
-    left: 50%;  /* 画面中央 */
-    transform: translate(-50%, -50%); /* 中央揃え */
-    display: flex;
-    flex-direction: column;
-    gap: 3vw;
-    z-index: 9999; /* オーバーレイより前面 */
+    bottom: 25%;
+    right: 5%; /* 右から5%の位置に配置 */
+    left: auto; /* leftを無効化 */
   }
 
   .category-btn {
-    padding: 3% 5%;
+    padding: 2% 3%;
     font-size: 4vw;
   }
 
   .sub-buttons {
-    position: fixed;   
-    top: 60%;  /* カテゴリーボタンの下に出す */
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;    
-    flex-direction: column;
-    gap: 2vw;
-    z-index: 9999;
+    bottom: 35%;
+    right: 5%; /* 右から5%の位置に配置 */
+    left: auto; /* leftを無効化 */
   }
-
   .sub-buttons button {
-    padding: 3% 5%;
+    padding: 2% 3%;
     font-size: 4vw;
   }
-}
 
   #timer {
     font-size: 5vw;
     top: 3%;
     right: 3%;
   }
-
-  #face-frame {
-    width: 60%;
-    height: 80%;
-  }
-
+}
