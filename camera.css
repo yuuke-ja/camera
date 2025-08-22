@@ -111,15 +111,15 @@ html, body {
     width: 40%;
     font-size: 4vw;
   }
-
   .category-buttons {
     position: fixed;   
-    bottom: 15%;
-    left: 5%;
+    top: 50%;   /* 画面中央 */
+    left: 50%;  /* 画面中央 */
+    transform: translate(-50%, -50%); /* 中央揃え */
     display: flex;
     flex-direction: column;
     gap: 3vw;
-    z-index: 50; /* 上に出す */
+    z-index: 9999; /* オーバーレイより前面 */
   }
 
   .category-btn {
@@ -129,18 +129,20 @@ html, body {
 
   .sub-buttons {
     position: fixed;   
-    bottom: 25%;
-    left: 5%;
+    top: 60%;  /* カテゴリーボタンの下に出す */
+    left: 50%;
+    transform: translateX(-50%);
     display: none;    
     flex-direction: column;
     gap: 2vw;
-    z-index: 50;
+    z-index: 9999;
   }
 
   .sub-buttons button {
     padding: 3% 5%;
     font-size: 4vw;
   }
+}
 
   #timer {
     font-size: 5vw;
@@ -152,4 +154,4 @@ html, body {
     width: 60%;
     height: 80%;
   }
-}
+
