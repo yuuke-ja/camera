@@ -34,31 +34,31 @@ html, body {
 
 
 #snap, #record {
-  position: absolute;
-  bottom: 20px;
-  z-index: 10;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none; border-radius: 8px;
+  position: fixed;
+  bottom: 5%; /* 下から 5% の位置に固定 */
+  padding: 1% 2%; /* サイズも % にして画面サイズ依存に */
+  font-size: 1.2vw; /* フォントも画面幅に依存 */
+  border: none; border-radius: 1vw;
   background: rgba(255,255,255,0.8);
   cursor: pointer;
+  z-index: 10;
 }
-#snap { right: 140px; }
-#record { right: 80px; }
+#snap { right: 60%; }
+#record { right: 40%; }
 
 .category-buttons {
   position: absolute;
   bottom: 70px;
-  right: 20px;
+  right: 90%;
   z-index: 10;
 }
 .category-btn {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   padding: 8px 12px;
   font-size: 14px;
   border-radius: 8px;
-  background: rgba(200,200,200,0.8);
+  background: rgba(255, 255, 255, 0.8);
   border: none;
   cursor: pointer;
 }
@@ -72,7 +72,7 @@ html, body {
 }
 .sub-buttons button {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   padding: 8px 12px;
   font-size: 14px;
   border-radius: 8px;
@@ -99,4 +99,45 @@ html, body {
   box-shadow: 0 0 15px #00ffcc;
   pointer-events: none;
   z-index: 15;
+}
+@media (max-width: 768px) {
+  #snap {
+    left: 5%;
+    width: 40%;
+  }
+  #record {
+    right: 5%;
+    width: 40%;
+  }
+
+  .category-buttons {
+    bottom: 25%;
+    left: 3%;
+    right: auto;
+  }
+
+  .category-btn {
+    padding: 2% 3%;
+    font-size: 4vw;
+  }
+
+  .sub-buttons {
+    bottom: 35%;
+    left: 3%;
+  }
+  .sub-buttons button {
+    padding: 2% 3%;
+    font-size: 4vw;
+  }
+
+  #timer {
+    font-size: 5vw;
+    top: 3%;
+    right: 3%;
+  }
+
+  #face-frame {
+    width: 60%;
+    height: 80%;
+  }
 }
