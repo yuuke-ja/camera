@@ -111,9 +111,11 @@ html, body {
   }
 
   .category-buttons {
-    bottom: 25%;
-    right: 5%; /* 右から5%の位置に配置 */
-    left: auto; /* leftを無効化 */
+    bottom: 12%; /* シャッター/録画ボタンより少し上の位置 */
+    left: 50%;
+    transform: translateX(-50%); /* 画面中央に配置 */
+    right: auto;
+    z-index: 10;
   }
 
   .category-btn {
@@ -122,9 +124,11 @@ html, body {
   }
 
   .sub-buttons {
-    bottom: 35%;
-    right: 5%; /* 右から5%の位置に配置 */
-    left: auto; /* leftを無効化 */
+    bottom: 22%; /* カテゴリーボタンより少し上の位置 */
+    left: 50%;
+    transform: translateX(-50%); /* 画面中央に配置 */
+    right: auto;
+    z-index: 10;
   }
   .sub-buttons button {
     padding: 2% 3%;
