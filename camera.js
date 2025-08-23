@@ -97,61 +97,75 @@ toggleRabbitBtn.addEventListener("click", () => {
 function drawOverlay() {
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
 
-  if (sunglassesOn) {
-    const w = overlay.width * 0.3;
+  const portrait = window.innerWidth <= 768; // スマホ縦画面判定
+
+  // サングラス
+  if (sunglassesOn && sunglassesImg.complete) {
+    const w = overlay.width * (portrait ? 0.4 : 0.3);
     const h = w * (sunglassesImg.height / sunglassesImg.width);
-    const x = overlay.width * 0.35;
-    const y = overlay.height * 0.35; 
+    const x = overlay.width * (portrait ? 0.3 : 0.35);
+    const y = overlay.height * (portrait ? 0.3 : 0.35);
     overlayCtx.drawImage(sunglassesImg, x, y, w, h);
   }
 
-  if (santaHatOn) {
-    const w = overlay.width * 0.3;
+  // サンタ帽
+  if (santaHatOn && santaHatImg.complete) {
+    const w = overlay.width * (portrait ? 0.4 : 0.3);
     const h = w * (santaHatImg.height / santaHatImg.width);
     const x = (overlay.width - w) / 2;
-    const y = overlay.height * 0.0; 
+    const y = overlay.height * (portrait ? 0.0 : 0.0);
     overlayCtx.drawImage(santaHatImg, x, y, w, h);
   }
+
+  // ハロ
   if (haloOn && haloImg.complete) {
-    const w = overlay.width * 0.3;
+    const w = overlay.width * (portrait ? 0.5 : 0.3);
     const h = w * (haloImg.height / haloImg.width);
     const x = (overlay.width - w) / 2;
-    const y = overlay.height * -0.02; 
+    const y = overlay.height * (portrait ? 0.0 : -0.02);
     overlayCtx.drawImage(haloImg, x, y, w, h);
   }
+
+  // ひげ
   if (higeOn && higeImg.complete) {
-    const w = overlay.width * 0.3;
+    const w = overlay.width * (portrait ? 0.4 : 0.3);
     const h = w * (higeImg.height / higeImg.width);
-    const x = overlay.width * 0.35;
-    const y = overlay.height * 0.35;
+    const x = overlay.width * (portrait ? 0.3 : 0.35);
+    const y = overlay.height * (portrait ? 0.35 : 0.35);
     overlayCtx.drawImage(higeImg, x, y, w, h);
   }
+
+  // 角
   if (tunoOn && tunoImg.complete) {
-    const w = overlay.width * 0.3; // サイズは適宜調整
+    const w = overlay.width * (portrait ? 0.4 : 0.3);
     const h = w * (tunoImg.height / tunoImg.width);
-    const x = (overlay.width - w) / 2; // 頭の中央
-    const y = overlay.height * -0.05; // 頭の上
+    const x = (overlay.width - w) / 2;
+    const y = overlay.height * (portrait ? -0.05 : -0.05);
     overlayCtx.drawImage(tunoImg, x, y, w, h);
   }
+
+  // ガスマスク
   if (gasMaskOn && gasMaskImg.complete) {
-    const w = overlay.width * 0.90;
+    const w = overlay.width * (portrait ? 0.8 : 0.9);
     const h = w * (gasMaskImg.height / gasMaskImg.width);
-    const x = overlay.width * 0.07;
-    const y = overlay.height * 0.06;
+    const x = overlay.width * (portrait ? 0.1 : 0.07);
+    const y = overlay.height * (portrait ? 0.05 : 0.06);
     overlayCtx.drawImage(gasMaskImg, x, y, w, h);
   }
+
+  // ウサギ
   if (rabbitOn && rabbitImg.complete) {
-    const w = overlay.width * 0.35;                         
-    const h = w * (rabbitImg.height / rabbitImg.width);     
-    const x = (overlay.width - w) / 2;                      
-    const y = overlay.height * -0.07;                       
+    const w = overlay.width * (portrait ? 0.4 : 0.35);
+    const h = w * (rabbitImg.height / rabbitImg.width);
+    const x = (overlay.width - w) / 2;
+    const y = overlay.height * (portrait ? -0.05 : -0.07);
     overlayCtx.drawImage(rabbitImg, x, y, w, h);
   }
-  
 
   requestAnimationFrame(drawOverlay);
 }
 drawOverlay();
+
 
 snapBtn.addEventListener('click', () => {
   canvas.width = video.videoWidth;
