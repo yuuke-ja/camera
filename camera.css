@@ -143,8 +143,8 @@ html, body {
 }
 @media (max-width: 768px) {
   #face-frame {
-    width: 80vw;  
-    height: calc(80vw * 32 / 25); /* 元の比率を維持 */
+    width: 70vw;  
+    height: calc(70vw * 32 / 25); /* 元の比率を維持 */
   }
 }
 
