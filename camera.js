@@ -117,7 +117,7 @@ if (santaHatOn && santaHatImg.complete) {
   overlayCtx.drawImage(santaHatImg, x, y, w, h);
 }
 
-// ハロ
+// 天使
 if (haloOn && haloImg.complete) {
   const w = overlay.width * (portrait ? 0.9 : 0.3);
   const h = w * (haloImg.height / haloImg.width);
@@ -131,7 +131,7 @@ if (higeOn && higeImg.complete) {
   const w = overlay.width * (portrait ? 0.75 : 0.3);
   const h = w * (higeImg.height / higeImg.width);
   const x = overlay.width * (portrait ? 0.125 : 0.35);
-  const y = overlay.height * (portrait ? 0.45 : 0.35);
+  const y = overlay.height * (portrait ? 0.20 : 0.35);
   overlayCtx.drawImage(higeImg, x, y, w, h);
 }
 
@@ -140,7 +140,7 @@ if (tunoOn && tunoImg.complete) {
   const w = overlay.width * (portrait ? 0.75 : 0.3);
   const h = w * (tunoImg.height / tunoImg.width);
   const x = (overlay.width - w) / 2;
-  const y = overlay.height * (portrait ? -0.15 : -0.05);
+  const y = overlay.height * (portrait ? 0.0 : -0.05);
   overlayCtx.drawImage(tunoImg, x, y, w, h);
 }
 
@@ -149,7 +149,7 @@ if (gasMaskOn && gasMaskImg.complete) {
   const w = overlay.width * (portrait ? 1.5 : 0.9);
   const h = w * (gasMaskImg.height / gasMaskImg.width);
   const x = overlay.width * (portrait ? -0.25 : 0.07);
-  const y = overlay.height * (portrait ? 0.0 : 0.06);
+  const y = overlay.height * (portrait ? 0.10 : 0.06);
   overlayCtx.drawImage(gasMaskImg, x, y, w, h);
 }
 
@@ -158,7 +158,7 @@ if (rabbitOn && rabbitImg.complete) {
   const w = overlay.width * (portrait ? 0.75 : 0.35);
   const h = w * (rabbitImg.height / rabbitImg.width);
   const x = (overlay.width - w) / 2;
-  const y = overlay.height * (portrait ? -0.15 : -0.07);
+  const y = overlay.height * (portrait ? -0.0 : -0.07);
   overlayCtx.drawImage(rabbitImg, x, y, w, h);
 }
 
