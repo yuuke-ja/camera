@@ -141,3 +141,9 @@ html, body {
     right: 3%;
   }
 }
+@media (max-width: 768px) {
+  #face-frame {
+    width: 45vw;  
+    height: 55vw; 
+  }
+}
