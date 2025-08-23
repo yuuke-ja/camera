@@ -131,7 +131,7 @@ if (higeOn && higeImg.complete) {
   const w = overlay.width * (portrait ? 0.75 : 0.3);
   const h = w * (higeImg.height / higeImg.width);
   const x = overlay.width * (portrait ? 0.125 : 0.35);
-  const y = overlay.height * (portrait ? 0.20 : 0.35);
+  const y = overlay.height * (portrait ? 0.23 : 0.35);
   overlayCtx.drawImage(higeImg, x, y, w, h);
 }
 
