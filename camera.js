@@ -104,7 +104,7 @@ if (sunglassesOn && sunglassesImg.complete) {
   const w = overlay.width * (portrait ? 0.75 : 0.3); // ← 0.4 → 0.75 に拡大
   const h = w * (sunglassesImg.height / sunglassesImg.width);
   const x = overlay.width * (portrait ? 0.125 : 0.35); // 位置も調整
-  const y = overlay.height * (portrait ? 0.40 : 0.35);
+  const y = overlay.height * (portrait ? 0.35 : 0.35);
   overlayCtx.drawImage(sunglassesImg, x, y, w, h);
 }
 
@@ -131,7 +131,7 @@ if (higeOn && higeImg.complete) {
   const w = overlay.width * (portrait ? 0.75 : 0.3);
   const h = w * (higeImg.height / higeImg.width);
   const x = overlay.width * (portrait ? 0.125 : 0.35);
-  const y = overlay.height * (portrait ? 0.30 : 0.35);
+  const y = overlay.height * (portrait ? 0.35 : 0.35);
   overlayCtx.drawImage(higeImg, x, y, w, h);
 }
 
@@ -148,7 +148,7 @@ if (tunoOn && tunoImg.complete) {
 if (gasMaskOn && gasMaskImg.complete) {
   const w = overlay.width * (portrait ? 1.8 : 0.9);
   const h = w * (gasMaskImg.height / gasMaskImg.width);
-  const x = overlay.width * (portrait ? -0.25 : 0.07);
+  const x = (overlay.width - w) / 2;
   const y = overlay.height * (portrait ? 0.15 : 0.06);
   overlayCtx.drawImage(gasMaskImg, x, y, w, h);
 }
