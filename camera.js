@@ -172,6 +172,8 @@ snapBtn.addEventListener('click', () => {
   canvas.height = video.videoHeight;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const portrait = window.innerWidth <= 768;
+
 
   function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
     if (!flameEl || flameEl.style.display === 'none') return;
@@ -196,56 +198,68 @@ snapBtn.addEventListener('click', () => {
   drawFlame(flame, 0.34, 0.2, 0.2);  
   drawFlame(flame2, 0.45, 0.2, 0.2); 
 
-  if (sunglassesOn) {
-    const w = canvas.width * 0.3;
-    const h = w * (sunglassesImg.height / sunglassesImg.width);
-    const x = canvas.width * 0.35;
-    const y = canvas.height * 0.35; 
-    ctx.drawImage(sunglassesImg, x, y, w, h);
-  }
+  // サングラス
+if (sunglassesOn && sunglassesImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3); // ← 0.4 → 0.75 に拡大
+  const h = w * (sunglassesImg.height / sunglassesImg.width);
+  const x = canvas.width * (portrait ? 0.125 : 0.35); // 位置も調整
+  const y = canvas.height * (portrait ? 0.35 : 0.35);
+  ctx.drawImage(sunglassesImg, x, y, w, h);
+}
 
-  if (santaHatOn) {
-    const w = canvas.width * 0.3;
-    const h = w * (santaHatImg.height / santaHatImg.width);
-    const x = (canvas.width - w) / 2;
-    const y = canvas.height * 0.0; 
-    ctx.drawImage(santaHatImg, x, y, w, h);
-  }
-  if (haloOn && haloImg.complete) {
-    const w = canvas.width * 0.3;
-    const h = w * (haloImg.height / haloImg.width);
-    const x = (canvas.width - w) / 2;
-    const y = canvas.height * -0.02;
-    ctx.drawImage(haloImg, x, y, w, h);
-  }
-  if (higeOn && higeImg.complete) {
-    const w = canvas.width * 0.3;
-    const h = w * (higeImg.height / higeImg.width);
-    const x = canvas.width * 0.35;
-    const y = canvas.height * 0.35;
-    ctx.drawImage(higeImg, x, y, w, h);
-  }
-  if (tunoOn && tunoImg.complete) {
-    const w = canvas.width * 0.3;
-    const h = w * (tunoImg.height / tunoImg.width);
-    const x = (canvas.width - w) / 2;
-    const y = canvas.height * -0.05;
-    ctx.drawImage(tunoImg, x, y, w, h);
-  }
-  if (gasMaskOn && gasMaskImg.complete) {
-    const w = canvas.width * 0.90;
-    const h = w * (gasMaskImg.height / gasMaskImg.width);
-    const x = canvas.width * 0.07;
-    const y = canvas.height * 0.06;
-    ctx.drawImage(gasMaskImg, x, y, w, h);
-  }
-  if (rabbitOn && rabbitImg.complete) {
-    const w = canvas.width * 0.35;
-    const h = w * (rabbitImg.height / rabbitImg.width);
-    const x = (canvas.width - w) / 2;
-    const y = canvas.height * -0.07;
-    ctx.drawImage(rabbitImg, x, y, w, h);
-  }
+// サンタ帽
+if (santaHatOn && santaHatImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3);
+  const h = w * (santaHatImg.height / santaHatImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.05 : 0.0);
+  ctx.drawImage(santaHatImg, x, y, w, h);
+}
+
+// 天使
+if (haloOn && haloImg.complete) {
+  const w = canvas.width * (portrait ? 0.9 : 0.3);
+  const h = w * (haloImg.height / haloImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.1 : -0.02);
+  ctx.drawImage(haloImg, x, y, w, h);
+}
+
+// ひげ
+if (higeOn && higeImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3);
+  const h = w * (higeImg.height / higeImg.width);
+  const x = canvas.width * (portrait ? 0.125 : 0.35);
+  const y = canvas.height * (portrait ? 0.35 : 0.35);
+  ctx.drawImage(higeImg, x, y, w, h);
+}
+
+// 角
+if (tunoOn && tunoImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3);
+  const h = w * (tunoImg.height / tunoImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.02 : -0.05);
+  ctx.drawImage(tunoImg, x, y, w, h);
+}
+
+// ガスマスク
+if (gasMaskOn && gasMaskImg.complete) {
+  const w = canvas.width * (portrait ? 1.8 : 0.9);
+  const h = w * (gasMaskImg.height / gasMaskImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? 0.15 : 0.06);
+  ctx.drawImage(gasMaskImg, x, y, w, h);
+}
+
+// ウサギ
+if (rabbitOn && rabbitImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.35);
+  const h = w * (rabbitImg.height / rabbitImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.0 : -0.07);
+  ctx.drawImage(rabbitImg, x, y, w, h);
+}
 
   
 
@@ -286,6 +300,7 @@ recordBtn.addEventListener('click', () => {
     function drawFrame() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
 
       function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
         if (!flameEl || flameEl.style.display === 'none') return;
@@ -306,60 +321,74 @@ recordBtn.addEventListener('click', () => {
         tempCtx.putImageData(imgData,0,0);
         ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
       }
-
+      const portrait = window.innerWidth <= 768;
       drawFlame(flame, 0.34, 0.2, 0.2);
       drawFlame(flame2, 0.45, 0.2, 0.2);
 
-      if (sunglassesOn) {
-        const w = canvas.width * 0.3;
-        const h = w * (sunglassesImg.height / sunglassesImg.width);
-        const x = canvas.width * 0.35;
-        const y = canvas.height * 0.35;
-        ctx.drawImage(sunglassesImg, x, y, w, h);
-      }
+      // サングラス
+if (sunglassesOn && sunglassesImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3); // ← 0.4 → 0.75 に拡大
+  const h = w * (sunglassesImg.height / sunglassesImg.width);
+  const x = canvas.width * (portrait ? 0.125 : 0.35); // 位置も調整
+  const y = canvas.height * (portrait ? 0.35 : 0.35);
+  ctx.drawImage(sunglassesImg, x, y, w, h);
+}
 
-      if (santaHatOn) {
-        const w = canvas.width * 0.3;
-        const h = w * (santaHatImg.height / santaHatImg.width);
-        const x = (canvas.width - w) / 2;
-        const y = canvas.height * 0.0; // 修正済み
-        ctx.drawImage(santaHatImg, x, y, w, h);
-      }
-      if (haloOn && haloImg.complete) {
-        const w = canvas.width * 0.3;
-        const h = w * (haloImg.height / haloImg.width);
-        const x = (canvas.width - w) / 2;
-        const y = canvas.height * -0.02;
-        ctx.drawImage(haloImg, x, y, w, h);
-      }
-      if (higeOn && higeImg.complete) {
-        const w = canvas.width * 0.3;
-        const h = w * (higeImg.height / higeImg.width);
-        const x = canvas.width * 0.35;
-        const y = canvas.height * 0.35;
-        ctx.drawImage(higeImg, x, y, w, h);
-      }
-      if (tunoOn && tunoImg.complete) {
-        const w = canvas.width * 0.3;
-        const h = w * (tunoImg.height / tunoImg.width);
-        const x = (canvas.width - w) / 2;
-        const y = canvas.height * -0.05;
-        ctx.drawImage(tunoImg, x, y, w, h);
-      }
-      if (gasMaskOn && gasMaskImg.complete) {
-        const w = canvas.width * 0.90;
-        const h = w * (gasMaskImg.height / gasMaskImg.width);
-        const x = canvas.width * 0.07;
-        const y = canvas.height * 0.06;
-        ctx.drawImage(gasMaskImg, x, y, w, h);
-      }
-      if (rabbitOn && rabbitImg.complete) {
-        const w = canvas.width * 0.35;
-        const h = w * (rabbitImg.height / rabbitImg.width);
-        const x = (canvas.width - w) / 2;
-        const y = canvas.height * -0.07;
-        ctx.drawImage(rabbitImg, x, y, w, h);
-      }
+// サンタ帽
+if (santaHatOn && santaHatImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3);
+  const h = w * (santaHatImg.height / santaHatImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.05 : 0.0);
+  ctx.drawImage(santaHatImg, x, y, w, h);
+}
+
+// 天使
+if (haloOn && haloImg.complete) {
+  const w = canvas.width * (portrait ? 0.9 : 0.3);
+  const h = w * (haloImg.height / haloImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.1 : -0.02);
+  ctx.drawImage(haloImg, x, y, w, h);
+}
+
+// ひげ
+if (higeOn && higeImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3);
+  const h = w * (higeImg.height / higeImg.width);
+  const x = canvas.width * (portrait ? 0.125 : 0.35);
+  const y = canvas.height * (portrait ? 0.35 : 0.35);
+  ctx.drawImage(higeImg, x, y, w, h);
+}
+
+// 角
+if (tunoOn && tunoImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.3);
+  const h = w * (tunoImg.height / tunoImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.02 : -0.05);
+  ctx.drawImage(tunoImg, x, y, w, h);
+}
+
+// ガスマスク
+if (gasMaskOn && gasMaskImg.complete) {
+  const w = canvas.width * (portrait ? 1.8 : 0.9);
+  const h = w * (gasMaskImg.height / gasMaskImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? 0.15 : 0.06);
+  ctx.drawImage(gasMaskImg, x, y, w, h);
+}
+
+// ウサギ
+if (rabbitOn && rabbitImg.complete) {
+  const w = canvas.width * (portrait ? 0.75 : 0.35);
+  const h = w * (rabbitImg.height / rabbitImg.width);
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * (portrait ? -0.0 : -0.07);
+  ctx.drawImage(rabbitImg, x, y, w, h);
+}
+
+
     
       
 
