@@ -122,7 +122,7 @@ if (haloOn && haloImg.complete) {
   const w = overlay.width * (portrait ? 0.9 : 0.3);
   const h = w * (haloImg.height / haloImg.width);
   const x = (overlay.width - w) / 2;
-  const y = overlay.height * (portrait ? -0.1 : -0.02);
+  const y = overlay.height * (portrait ? -0.1 : -0.07);
   overlayCtx.drawImage(haloImg, x, y, w, h);
 }
 
@@ -240,7 +240,7 @@ if (haloOn && haloImg.complete) {
   const w = canvas.width * (portrait ? 0.9 : 0.3);
   const h = w * (haloImg.height / haloImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.1 : -0.02);
+  const y = canvas.height * (portrait ? -0.1 : -0.05);
   ctx.drawImage(haloImg, x, y, w, h);
 }
 
@@ -276,7 +276,7 @@ if (rabbitOn && rabbitImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.35);
   const h = w * (rabbitImg.height / rabbitImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.0 : -0.02);
+  const y = canvas.height * (portrait ? -0.0 : -0.03);
   ctx.drawImage(rabbitImg, x, y, w, h);
 }
 
