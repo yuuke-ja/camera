@@ -151,9 +151,9 @@ html, body {
 @media (max-width: 768px) {
   #flame, #flame2 {
     top: 25%;   /* スマホ用に下げる */
-    width: 40vw;
-    height: 40vw;
+    width: 50vw;
+    height: 50vw;
   }
-  #flame { left: 20%; }
-  #flame2 { left: 50%; }
+  #flame { left: 15%; }
+  #flame2 { left: 45%; }
 }
