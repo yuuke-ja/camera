@@ -177,15 +177,33 @@ snapBtn.addEventListener('click', () => {
 
   function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
     if (!flameEl || flameEl.style.display === 'none') return;
+  
+    const portrait = window.innerWidth <= 768; 
+  
+    // 縦なら
+    if (portrait) {
+      if (flameEl === flame) {
+        xRatio = 0.10;  // flameのX位置
+        yRatio = 0.25; // flameのY位置
+        sizeRatio = 0.3; // flameのサイズ
+      } else if (flameEl === flame2) {
+        xRatio = 0.4;
+        yRatio = 0.25;
+        sizeRatio = 0.3;
+      }
+    }
+  
     const flameW = Math.floor(canvas.width * sizeRatio);
     const flameH = flameW;
     const flameX = Math.floor(canvas.width * xRatio);
     const flameY = Math.floor(canvas.height * yRatio);
+  
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = flameW;
     tempCanvas.height = flameH;
     const tempCtx = tempCanvas.getContext('2d');
     tempCtx.drawImage(flameEl, 0, 0, flameW, flameH);
+  
     const imgData = tempCtx.getImageData(0, 0, flameW, flameH);
     const data = imgData.data;
     for (let i = 0; i < data.length; i += 4) {
@@ -194,6 +212,7 @@ snapBtn.addEventListener('click', () => {
     tempCtx.putImageData(imgData, 0, 0);
     ctx.drawImage(tempCanvas, flameX, flameY, flameW, flameH);
   }
+  
 
   drawFlame(flame, 0.34, 0.2, 0.2);  
   drawFlame(flame2, 0.45, 0.2, 0.2); 
