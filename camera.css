@@ -148,3 +148,12 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+  #flame, #flame2 {
+    top: 25%;   /* スマホ用に下げる */
+    width: 40vw;
+    height: 40vw;
+  }
+  #flame { left: 20%; }
+  #flame2 { left: 50%; }
+}
