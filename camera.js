@@ -184,11 +184,11 @@ snapBtn.addEventListener('click', () => {
     if (portrait) {
       if (flameEl === flame) {
         xRatio = 0.12;  // flameのX位置
-        yRatio = 0.20; // flameのY位置
+        yRatio = 0.21; // flameのY位置
         sizeRatio = 0.5; // flameのサイズ
       } else if (flameEl === flame2) {
         xRatio = 0.40;
-        yRatio = 0.20;
+        yRatio = 0.21;
         sizeRatio = 0.5;
       }
     }
@@ -258,7 +258,7 @@ if (tunoOn && tunoImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.3);
   const h = w * (tunoImg.height / tunoImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.02 : -0.05);
+  const y = canvas.height * (portrait ? -0.01 : -0.03);
   ctx.drawImage(tunoImg, x, y, w, h);
 }
 
@@ -276,7 +276,7 @@ if (rabbitOn && rabbitImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.35);
   const h = w * (rabbitImg.height / rabbitImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.0 : -0.07);
+  const y = canvas.height * (portrait ? -0.0 : -0.02);
   ctx.drawImage(rabbitImg, x, y, w, h);
 }
 
