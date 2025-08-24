@@ -184,11 +184,11 @@ snapBtn.addEventListener('click', () => {
     if (portrait) {
       if (flameEl === flame) {
         xRatio = 0.12;  // flameのX位置
-        yRatio = 0.19; // flameのY位置
+        yRatio = 0.20; // flameのY位置
         sizeRatio = 0.5; // flameのサイズ
       } else if (flameEl === flame2) {
         xRatio = 0.40;
-        yRatio = 0.19;
+        yRatio = 0.20;
         sizeRatio = 0.5;
       }
     }
