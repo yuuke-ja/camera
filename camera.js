@@ -323,6 +323,20 @@ recordBtn.addEventListener('click', () => {
 
       function drawFlame(flameEl, xRatio, yRatio, sizeRatio) {
         if (!flameEl || flameEl.style.display === 'none') return;
+
+        const portrait = window.innerWidth <= 768;
+        if (portrait) {
+          if (flameEl === flame) {
+            xRatio = 0.12;
+            yRatio = 0.21;
+            sizeRatio = 0.5;
+          } else if (flameEl === flame2) {
+            xRatio = 0.40;
+            yRatio = 0.21;
+            sizeRatio = 0.5;
+          }
+        }
+        
         const flameW = Math.floor(canvas.width * sizeRatio);
         const flameH = flameW;
         const flameX = Math.floor(canvas.width * xRatio);
@@ -367,7 +381,7 @@ if (haloOn && haloImg.complete) {
   const w = canvas.width * (portrait ? 0.9 : 0.3);
   const h = w * (haloImg.height / haloImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.1 : -0.02);
+  const y = canvas.height * (portrait ? -0.1 : -0.09);
   ctx.drawImage(haloImg, x, y, w, h);
 }
 
@@ -385,7 +399,7 @@ if (tunoOn && tunoImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.3);
   const h = w * (tunoImg.height / tunoImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.02 : -0.05);
+  const y = canvas.height * (portrait ? -0.01 : -0.03);
   ctx.drawImage(tunoImg, x, y, w, h);
 }
 
@@ -403,7 +417,7 @@ if (rabbitOn && rabbitImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.35);
   const h = w * (rabbitImg.height / rabbitImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.0 : -0.07);
+  const y = canvas.height * (portrait ? -0.0 : -0.04);
   ctx.drawImage(rabbitImg, x, y, w, h);
 }
 
