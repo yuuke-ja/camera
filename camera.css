@@ -48,8 +48,8 @@ html, body {
 
 .category-buttons {
   position: absolute;
-  bottom: 70px;
-  right: 90%;
+  bottom: 15%;   /* 70px 相当を%に変換 */
+  left: 5%;      /* PCでも左寄せにしたいならこっち */
   z-index: 10;
 }
 .category-btn {
@@ -66,8 +66,8 @@ html, body {
 .sub-buttons {
   display: none;
   position: absolute;
-  bottom: 120px;
-  right: 20px;
+  bottom: 25%;   /* 120px を%に変換 */
+  right: 5%;     /* 20px を%に変換 */
   z-index: 10;
 }
 .sub-buttons button {
@@ -127,7 +127,7 @@ html, body {
     bottom: 22%; /* カテゴリーボタンより少し上の位置 */
     right:5%;
     transform: none; /* 画面中央に配置 */
-    right: auto;
+    left: auto;
     z-index: 10;
   }
   .sub-buttons button {
