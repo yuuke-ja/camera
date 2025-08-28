@@ -417,7 +417,7 @@ if (rabbitOn && rabbitImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.35);
   const h = w * (rabbitImg.height / rabbitImg.width);
   const x = (canvas.width - w) / 2;
-  const y = canvas.height * (portrait ? -0.0 : -0.04);
+  const y = canvas.height * (portrait ? 0.02 : -0.04);
   ctx.drawImage(rabbitImg, x, y, w, h);
 }
 
