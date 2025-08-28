@@ -249,7 +249,7 @@ if (higeOn && higeImg.complete) {
   const w = canvas.width * (portrait ? 0.75 : 0.3);
   const h = w * (higeImg.height / higeImg.width);
   const x = canvas.width * (portrait ? 0.125 : 0.35);
-  const y = canvas.height * (portrait ? 0.35 : 0.32);
+  const y = canvas.height * (portrait ? 0.35 : 0.35);
   ctx.drawImage(higeImg, x, y, w, h);
 }
 
