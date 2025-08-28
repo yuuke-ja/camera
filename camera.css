@@ -112,7 +112,7 @@ html, body {
 
   .category-buttons {
     bottom: 40%; /* シャッター/録画ボタンより少し上の位置 */
-    left: 5%;
+    left: 3%;
     transform: none; 
     right: auto;
     z-index: 10;
@@ -125,7 +125,7 @@ html, body {
 
   .sub-buttons {
     bottom: 22%; /* カテゴリーボタンより少し上の位置 */
-    right:5%;
+    right:3%;
     transform: none; /* 画面中央に配置 */
     left: auto;
     z-index: 10;
