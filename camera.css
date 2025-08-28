@@ -66,27 +66,20 @@ html, body {
 .sub-buttons {
   display: none;
   position: absolute;
-  bottom: 25%;   /* 下からの位置 */
-  right: 5%;     /* 右端からの位置 */
+  bottom: 25%;   
+  right: 5%;   
   z-index: 10;
-
-  display: flex;
-  flex-direction: column; /* 縦に並べる */
-  align-items: flex-end;  /* 右端に揃える */
 }
-
 .sub-buttons button {
   display: block;
-  margin-bottom: 1%;      /* ボタン間の間隔 */
+  margin-bottom: 15px;
   padding: 8px 12px;
   font-size: 14px;
   border-radius: 8px;
   background: rgba(255,255,255,0.9);
   border: none;
   cursor: pointer;
-  text-align: right;      /* テキストも右端に揃える */
 }
-
 
 #timer {
   color: aliceblue;
@@ -138,8 +131,9 @@ html, body {
     z-index: 10;
   }
   .sub-buttons button {
-    padding: 2% 3%;
     font-size: 4vw;
+    padding: 3px 5px;
+    font-size: 10px;
   }
 
   #timer {
